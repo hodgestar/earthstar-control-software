@@ -13,6 +13,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask',
+        'zmq',
     ],
     entry_points={  # Optional
         'console_scripts': [
