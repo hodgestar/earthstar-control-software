@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <div class="container">
+      <div class="page-header">
+        <h1>Earthstar</h1>
+        <ul>
+          <li><a href="{{ url_for('effect_api.index') }}">Effect API</a></li>
+          <li><a href="{{ url_for('controller.index') }}">Controller</a></li>
+        </ul>
+      </div>
+  </div>
+{% endblock %}
