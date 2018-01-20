@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# A very simple way to run the earthstar control system pieces
+
+trap 'kill $(jobs -p)' EXIT
+
+earthstar-api &
+earthstar-effectbox &
+earthstar-simulator &
+
+wait -n $(jobs -p)

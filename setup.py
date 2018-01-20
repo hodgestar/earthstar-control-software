@@ -21,6 +21,9 @@ setup(
             'earthstar-simulator=earthstar.simulator:main',
         ],
     },
+    scripts=[
+        'bin/earthstar-runner',
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: End Users/Desktop',
