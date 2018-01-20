@@ -8,6 +8,11 @@
     as an event logger).
 """
 
+import time
+
 
 def main():
     print("Earthstar API still coming ...")
+    while True:
+        time.sleep(5)
+        print(".")

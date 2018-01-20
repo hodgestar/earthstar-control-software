@@ -13,6 +13,11 @@
     each data point.
 """
 
+import time
+
 
 def main():
     print("Earthstar EffectBox still coming ...")
+    while True:
+        time.sleep(5)
+        print(".")
