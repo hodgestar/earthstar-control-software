@@ -22,11 +22,11 @@ Quickstart
 
 Install the earthstar control software::
 
-    $ pip install earthstar  # not yet available
+    $ pip install earthstar[simulator]  # not yet available
 
 Or::
 
-    $ pip install -e .  # for development
+    $ pip install -e .[simulator]  # for development
 
 Run the API, EffectBox and simulator::
 

@@ -15,8 +15,12 @@ setup(
         'flask',
         'flask_bootstrap',
         'click',
+        'numpy',
         'zmq',
     ],
+    extras_require={
+        'simulator': ['faulthandler', 'pygame_cffi', 'PyOpenGL'],
+    },
     entry_points={  # Optional
         'console_scripts': [
             'earthstar-api=earthstar.api:main',
