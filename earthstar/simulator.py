@@ -102,6 +102,7 @@ class Earthstar(object):
 
     RING_RADIUS = 100.0
     RING_TILT = np.pi / 6  # 30 degrees
+    RING_OFFSET = np.array([1, 1, 1]) * RING_RADIUS * 1.1
 
     LEDS_PER_RING = 100
     TUBE_RADIUS = 5.0
@@ -129,7 +130,7 @@ class Earthstar(object):
             k = norm(n, r)
             n = rotate(n, k, self.RING_TILT)
             r = rotate(r, k, self.RING_TILT)
-            self.add_ring(k, n, r * self.RING_RADIUS)
+            self.add_ring(k, n, r * self.RING_RADIUS, self.RING_OFFSET)
 
         self.verts = np.array(self.verts)
         self.colours = np.array(self.colours)
@@ -150,12 +151,12 @@ class Earthstar(object):
     def rotate_z(self, delta):
         self.rz = self._do_rotate(self.rz, delta)
 
-    def add_ring(self, k, n, r):
+    def add_ring(self, k, n, r, offset):
         """ Add a ring. """
         prev_v, v = None, None
         for theta in np.linspace(0, 2 * np.pi, self.LEDS_PER_RING + 1):
             prev_v = v
-            v = rotate(r, n, theta)
+            v = rotate(r, n, theta) + offset
             if prev_v is not None:
                 self.add_led(k, n, prev_v, v)
 
