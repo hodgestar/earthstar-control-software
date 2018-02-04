@@ -16,6 +16,7 @@
 import time
 
 import click
+import numpy as np
 import zmq
 
 from . import frame_utils
@@ -23,16 +24,21 @@ from . import frame_utils
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
 @click.option(
+    '--fps', default=10,
+    help='Frames per second.')
+@click.option(
     '--effectbox-addr', default='tcp://127.0.0.1:5556',
     help='ZeroMQ address to publish frames too.')
-def main(effectbox_addr):
+def main(fps, effectbox_addr):
     click.echo("Earthstar effectbox running.")
+    tick = 1. / fps
     context = zmq.Context()
     socket = context.socket(zmq.PUB)
     socket.bind(effectbox_addr)
+    frame = frame_utils.candy_stripes()
     while True:
-        frame = frame_utils.candy_stripes()
+        frame = np.roll(frame, 1, axis=1)  # rotate each ring one step
         socket.send(frame.tobytes())
         click.echo("Sent frame.")
-        time.sleep(1)
+        time.sleep(tick)
     click.echo("Earthstar effectbox exited.")
