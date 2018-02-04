@@ -7,12 +7,14 @@
 
 import faulthandler
 
-import pygame
+import click
+import numpy as np
 import OpenGL.GL as gl
 import OpenGL.GLU as glu
-import numpy as np
+import pygame
+import zmq
 
-from .frame import candy_stripes, LEDS_PER_RING
+from . import frame_utils
 
 
 class ExitSimulator(Exception):
@@ -104,12 +106,13 @@ class Earthstar(object):
     RING_TILT = np.pi / 6  # 30 degrees
     RING_OFFSET = np.array([1, 1, 1]) * RING_RADIUS * 1.1
 
-    LEDS_PER_RING = LEDS_PER_RING
+    N_RINGS = frame_utils.N_RINGS
+    LEDS_PER_RING = frame_utils.LEDS_PER_RING
+
     TUBE_RADIUS = 5.0
     PANELS_PER_LED = 12
 
     VERTICES_PER_LED = 2 * 3 * PANELS_PER_LED
-    N_RINGS = 6
     N_COLOURS = N_RINGS * LEDS_PER_RING * VERTICES_PER_LED
 
     def __init__(self, size):
@@ -190,8 +193,8 @@ class Earthstar(object):
             * one column per LED (LEDS_PER_RING)
             * three colours per LED (0 - 255)
         """
-        assert frame.shape == (self.N_RINGS, self.LEDS_PER_RING, 3)
-        assert frame.dtype == np.uint8
+        assert frame.shape == frame_utils.FRAME_SHAPE
+        assert frame.dtype == frame_utils.FRAME_DTYPE
         frame = frame / 255.
         # add opacity of 1.0 to each colour
         colours = np.insert(frame, 3, 1.0, axis=2)
@@ -271,17 +274,41 @@ def gl_init(screen_size, display_mode):
     gl.glLoadIdentity()
 
 
-def main(fps=10, print_fps=False):
-    print("Earthstar simulator running.")
+@click.command(context_settings={"auto_envvar_prefix": "ESC"})
+@click.option(
+    '--fps', default=10,
+    help='Frames per second.')
+@click.option(
+    '--print-fps/--no-print-fps', default=False,
+    help='Turn on or off printing actual frames per second.')
+@click.option(
+    '--effectbox-addr', default='tcp://127.0.0.1:5556',
+    help='ZeroMQ address to receive frames from.')
+def main(fps, print_fps, effectbox_addr):
+    click.echo("Earthstar simulator running.")
     s = SimEarthstar(fps, print_fps)
     s.setup()
-    frame = candy_stripes()
+
+    context = zmq.Context()
+    socket = context.socket(zmq.SUB)
+    socket.connect(effectbox_addr)
+    socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
+
+    frame = frame_utils.candy_stripes()
     try:
         while True:
-            s.render(frame)
+            try:
+                data = socket.recv(flags=zmq.NOBLOCK)
+                frame = np.frombuffer(data, dtype=frame_utils.FRAME_DTYPE)
+                frame.shape = frame_utils.FRAME_SHAPE
+                s.render(frame)
+                click.echo("Frame received.")
+            except zmq.ZMQError as err:
+                if not err.errno == zmq.EAGAIN:
+                    raise
             s.tick()
     except ExitSimulator:
         pass
     finally:
         s.teardown()
-    print("Earthstar simulator exited.")
+    click.echo("Earthstar simulator exited.")

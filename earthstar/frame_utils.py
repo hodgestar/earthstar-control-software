@@ -7,7 +7,10 @@
 
 import numpy as np
 
+N_RINGS = 6
 LEDS_PER_RING = 100
+FRAME_SHAPE = (N_RINGS, LEDS_PER_RING, 3)
+FRAME_DTYPE = np.uint8
 
 
 def candy_stripes():

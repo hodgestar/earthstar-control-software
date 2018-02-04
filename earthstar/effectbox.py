@@ -15,9 +15,24 @@
 
 import time
 
+import click
+import zmq
 
-def main():
-    print("Earthstar EffectBox still coming ...")
+from . import frame_utils
+
+
+@click.command(context_settings={"auto_envvar_prefix": "ESC"})
+@click.option(
+    '--effectbox-addr', default='tcp://127.0.0.1:5556',
+    help='ZeroMQ address to publish frames too.')
+def main(effectbox_addr):
+    click.echo("Earthstar effectbox running.")
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind(effectbox_addr)
     while True:
-        time.sleep(5)
-        print(".")
+        frame = frame_utils.candy_stripes()
+        socket.send(frame.tobytes())
+        click.echo("Sent frame.")
+        time.sleep(1)
+    click.echo("Earthstar effectbox exited.")
