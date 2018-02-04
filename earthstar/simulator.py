@@ -5,14 +5,14 @@
     It consumes frames from the EffectBox and draws them on the screen.
 """
 
-import itertools
-
 import faulthandler
 
 import pygame
 import OpenGL.GL as gl
 import OpenGL.GLU as glu
 import numpy as np
+
+from .frame import candy_stripes, LEDS_PER_RING
 
 
 class ExitSimulator(Exception):
@@ -104,7 +104,7 @@ class Earthstar(object):
     RING_TILT = np.pi / 6  # 30 degrees
     RING_OFFSET = np.array([1, 1, 1]) * RING_RADIUS * 1.1
 
-    LEDS_PER_RING = 100
+    LEDS_PER_RING = LEDS_PER_RING
     TUBE_RADIUS = 5.0
     PANELS_PER_LED = 12
 
@@ -202,21 +202,6 @@ class Earthstar(object):
         # reshape post repeat
         self.colours.shape = (self.N_COLOURS, 4)
 
-    @classmethod
-    def initial_frame(cls):
-        """ Return a basic default frame. """
-        def ring_colours(c1, c2):
-            return [c1, c2] * (cls.LEDS_PER_RING / 2)
-
-        return np.array([
-            ring_colours([0, 255, 0], [0, 0, 255]),
-            ring_colours([128, 255, 0], [128, 0, 255]),
-            ring_colours([255, 0, 0], [0, 0, 255]),
-            ring_colours([255, 128, 0], [0, 128, 255]),
-            ring_colours([255, 0, 0], [0, 255, 0]),
-            ring_colours([255, 0, 128], [0, 255, 128]),
-        ], dtype=np.uint8)
-
     def _render_floor(self):
         right, left = -0.1, 1.0
         floor_corners = [
@@ -290,7 +275,7 @@ def main(fps=10, print_fps=False):
     print("Earthstar simulator running.")
     s = SimEarthstar(fps, print_fps)
     s.setup()
-    frame = Earthstar.initial_frame()
+    frame = candy_stripes()
     try:
         while True:
             s.render(frame)
