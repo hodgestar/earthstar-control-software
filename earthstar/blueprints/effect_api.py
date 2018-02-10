@@ -2,7 +2,9 @@
 
 """ Effect event API blueprint. """
 
-from flask import Blueprint, jsonify
+import json
+
+from flask import Blueprint, current_app, jsonify
 
 
 effect_api_bp = Blueprint('effect_api', __name__, template_folder='templates')
@@ -10,6 +12,8 @@ effect_api_bp = Blueprint('effect_api', __name__, template_folder='templates')
 
 @effect_api_bp.route('/effect')
 def index():
-    return jsonify({
+    effect = {
         'effect-api': 'coming soon',
-    })
+    }
+    current_app.effect_socket.send(json.dumps(effect))
+    return jsonify(effect)

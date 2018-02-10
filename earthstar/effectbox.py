@@ -27,18 +27,31 @@ from . import frame_utils
     '--fps', default=10,
     help='Frames per second.')
 @click.option(
-    '--effectbox-addr', default='tcp://127.0.0.1:5556',
+    '--effect-addr', default='tcp://127.0.0.1:5555',
+    help='ZeroMQ address to receive events from.')
+@click.option(
+    '--frame-addr', default='tcp://127.0.0.1:5556',
     help='ZeroMQ address to publish frames too.')
-def main(fps, effectbox_addr):
+def main(fps, effect_addr, frame_addr):
     click.echo("Earthstar effectbox running.")
     tick = 1. / fps
     context = zmq.Context()
-    socket = context.socket(zmq.PUB)
-    socket.bind(effectbox_addr)
+    frame_socket = context.socket(zmq.PUB)
+    frame_socket.bind(frame_addr)
+    effect_socket = context.socket(zmq.SUB)
+    effect_socket.connect(effect_addr)
+    effect_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
     frame = frame_utils.candy_stripes()
     while True:
+        try:
+            data = effect_socket.recv(flags=zmq.NOBLOCK)
+        except zmq.ZMQError as err:
+            if not err.errno == zmq.EAGAIN:
+                raise
+        else:
+            click.echo(str(data))
         frame = np.roll(frame, 1, axis=1)  # rotate each ring one step
-        socket.send(frame.tobytes())
+        frame_socket.send(frame.tobytes())
         click.echo("Sent frame.")
         time.sleep(tick)
     click.echo("Earthstar effectbox exited.")

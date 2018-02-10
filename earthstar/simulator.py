@@ -282,30 +282,31 @@ def gl_init(screen_size, display_mode):
     '--print-fps/--no-print-fps', default=False,
     help='Turn on or off printing actual frames per second.')
 @click.option(
-    '--effectbox-addr', default='tcp://127.0.0.1:5556',
+    '--frame-addr', default='tcp://127.0.0.1:5556',
     help='ZeroMQ address to receive frames from.')
-def main(fps, print_fps, effectbox_addr):
+def main(fps, print_fps, frame_addr):
     click.echo("Earthstar simulator running.")
     s = SimEarthstar(fps, print_fps)
     s.setup()
 
     context = zmq.Context()
-    socket = context.socket(zmq.SUB)
-    socket.connect(effectbox_addr)
-    socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
+    frame_socket = context.socket(zmq.SUB)
+    frame_socket.connect(frame_addr)
+    frame_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
 
     frame = frame_utils.candy_stripes()
     try:
         while True:
             try:
-                data = socket.recv(flags=zmq.NOBLOCK)
+                data = frame_socket.recv(flags=zmq.NOBLOCK)
+            except zmq.ZMQError as err:
+                if not err.errno == zmq.EAGAIN:
+                    raise
+            else:
                 frame = np.frombuffer(data, dtype=frame_utils.FRAME_DTYPE)
                 frame.shape = frame_utils.FRAME_SHAPE
                 s.render(frame)
                 click.echo("Frame received.")
-            except zmq.ZMQError as err:
-                if not err.errno == zmq.EAGAIN:
-                    raise
             s.tick()
     except ExitSimulator:
         pass
