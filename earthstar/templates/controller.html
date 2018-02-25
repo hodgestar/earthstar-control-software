@@ -1,16 +1,43 @@
 {% extends "base.html" %}
 
+{% block head %}
+{{ super() }}
+{%- endblock %}
 
 {% block content %}
   <div class="container">
       <div class="page-header">
         <h1>Earthstar Contoller</h1>
-        <ul>
-          <li>Button 1 (coming soon)</li>
-          <li>Button 2 (coming soon)</li>
-          <li>Button 3 (coming soon)</li>
-          <li>Button 4 (coming soon)</li>
-        </ul>
+          {% for ring in range(6) %}
+            <input type="text" value="75" data-ring="{{ ring }}" class="dial">
+          {% endfor %}
       </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='jquery.knob.min.js') }}"></script>
+<script>
+    $(function() {
+        var PI = 3.141592653589793;
+        $(".dial").knob({
+            "min": -PI,
+            "max": PI,
+            "step": 2 * PI / 180,
+            release: function (value) {
+                var ring = this.$.attr('data-ring');
+                console.log("Ring " + ring + ": " + value);
+                $.ajax({
+                  type: "POST",
+                  url: "{{ url_for('effect_api.flash') }}",
+                  data: JSON.stringify({ring: ring, angle: value}),
+                  dataType: "json",
+                  contentType: "application/json",
+                  success: null,
+                });
+            },
+        });
+    });
+</script>
 {% endblock %}
