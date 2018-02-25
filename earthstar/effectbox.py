@@ -13,6 +13,7 @@
     each data point.
 """
 
+import json
 import time
 
 import click
@@ -20,6 +21,17 @@ import numpy as np
 import zmq
 
 from . import frame_utils
+
+
+def apply_effect(frame, effect):
+    effect = json.loads(effect)
+    if effect["type"] == "flash":
+        ring = int(effect["ring"])
+        n = int(np.round(
+            frame_utils.LEDS_PER_RING * (1. + (effect["angle"] / np.pi))))
+        n = np.clip(n, 5, frame_utils.LEDS_PER_RING - 1)
+        for i in range(5):
+            frame[ring, n - i, :] = [255, 215, 0]
 
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
@@ -44,12 +56,12 @@ def main(fps, effect_addr, frame_addr):
     frame = frame_utils.candy_stripes()
     while True:
         try:
-            data = effect_socket.recv(flags=zmq.NOBLOCK)
+            effect = effect_socket.recv(flags=zmq.NOBLOCK)
         except zmq.ZMQError as err:
             if not err.errno == zmq.EAGAIN:
                 raise
         else:
-            click.echo(str(data))
+            apply_effect(frame, effect)
         frame = np.roll(frame, 1, axis=1)  # rotate each ring one step
         frame_socket.send(frame.tobytes())
         click.echo("Sent frame.")
