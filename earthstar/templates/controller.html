@@ -7,9 +7,12 @@
 {% block content %}
   <div class="container">
       <div class="page-header">
-        <h1>Earthstar Contoller</h1>
+        <h1 style="margin-bottom: 1em;">Earthstar Contoller</h1>
           {% for ring in range(6) %}
             <input type="text" value="75" data-ring="{{ ring }}" class="dial">
+            {% if ring % 3 == 2 %}
+            <br>
+            {% endif %}
           {% endfor %}
       </div>
   </div>
