@@ -17,21 +17,10 @@ import json
 import time
 
 import click
-import numpy as np
 import zmq
 
-from . import frame_utils
-
-
-def apply_effect(frame, effect):
-    effect = json.loads(effect)
-    if effect["type"] == "flash":
-        ring = int(effect["ring"])
-        n = int(np.round(
-            frame_utils.LEDS_PER_RING * (1. + (effect["angle"] / np.pi))))
-        n = np.clip(n, 5, frame_utils.LEDS_PER_RING - 1)
-        for i in range(5):
-            frame[ring, n - i, :] = [255, 215, 0]
+from .effects.engine import EffectEngine
+from .effects.spindots import SpindotsEffect
 
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
@@ -53,7 +42,10 @@ def main(fps, effect_addr, frame_addr):
     effect_socket = context.socket(zmq.SUB)
     effect_socket.connect(effect_addr)
     effect_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
-    frame = frame_utils.candy_stripes()
+
+    engine = EffectEngine()
+    engine.add_type(SpindotsEffect)
+
     while True:
         try:
             effect = effect_socket.recv(flags=zmq.NOBLOCK)
@@ -61,9 +53,9 @@ def main(fps, effect_addr, frame_addr):
             if not err.errno == zmq.EAGAIN:
                 raise
         else:
-            apply_effect(frame, effect)
-        frame = np.roll(frame, 1, axis=1)  # rotate each ring one step
+            engine.add_effect(json.loads(effect))
+        frame = engine.next_frame()
         frame_socket.send(frame.tobytes())
-        click.echo("Sent frame.")
+        # click.echo("Sent frame.")
         time.sleep(tick)
     click.echo("Earthstar effectbox exited.")

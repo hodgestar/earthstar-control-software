@@ -19,11 +19,11 @@ def index():
     return jsonify(effect)
 
 
-@effect_api_bp.route('/effect/flash', methods=["POST"])
-def flash():
+@effect_api_bp.route('/effect/spindots', methods=["POST"])
+def spindots():
     data = request.get_json()
     effect = {
-        'type': 'flash',
+        'type': 'spindots',
         'ring': data["ring"],
         'angle': data["angle"],
     }

@@ -33,7 +33,7 @@
                 console.log("Ring " + ring + ": " + value);
                 $.ajax({
                   type: "POST",
-                  url: "{{ url_for('effect_api.flash') }}",
+                  url: "{{ url_for('effect_api.spindots') }}",
                   data: JSON.stringify({ring: ring, angle: value}),
                   dataType: "json",
                   contentType: "application/json",
