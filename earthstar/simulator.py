@@ -306,7 +306,7 @@ def main(fps, print_fps, frame_addr):
                 frame = np.frombuffer(data, dtype=frame_utils.FRAME_DTYPE)
                 frame.shape = frame_utils.FRAME_SHAPE
                 s.render(frame)
-                click.echo("Frame received.")
+                # click.echo("Frame received.")
             s.tick()
     except ExitSimulator:
         pass
