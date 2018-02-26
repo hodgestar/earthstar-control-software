@@ -13,6 +13,14 @@ FRAME_SHAPE = (N_RINGS, LEDS_PER_RING, 3)
 FRAME_DTYPE = np.uint8
 
 
+class FrameConstants:
+    """ Holder for frame constants. """
+    n_rings = N_RINGS
+    leds_per_ring = LEDS_PER_RING
+    frame_shape = FRAME_SHAPE
+    frame_dtype = FRAME_DTYPE
+
+
 def candy_stripes():
     """ Return a candy striped frame. """
     def ring_colours(c1, c2):
