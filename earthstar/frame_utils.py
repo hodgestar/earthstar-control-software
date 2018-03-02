@@ -10,6 +10,7 @@ import numpy as np
 N_RINGS = 6
 LEDS_PER_RING = 100
 FRAME_SHAPE = (N_RINGS, LEDS_PER_RING, 3)
+RING_SHAPE = (LEDS_PER_RING, 3)
 FRAME_DTYPE = np.uint8
 
 
@@ -18,6 +19,7 @@ class FrameConstants:
     n_rings = N_RINGS
     leds_per_ring = LEDS_PER_RING
     frame_shape = FRAME_SHAPE
+    ring_shape = RING_SHAPE
     frame_dtype = FRAME_DTYPE
 
 
