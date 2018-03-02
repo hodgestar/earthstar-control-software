@@ -229,7 +229,7 @@ class Earthstar(object):
         gl.glLoadIdentity()
 
         glu.gluLookAt(
-            -0.75 * self.size, -0.75 * self.size, 1.75 * self.size,
+            1.5 * self.size, 1.5 * self.size, 1.5 * self.size,
             0.5 * self.size, 0.5 * self.size, 0.5 * self.size,
             0, 0, 1)
 
