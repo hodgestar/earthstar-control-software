@@ -48,8 +48,9 @@ class Effect:
 
     EFFECT = "unknown"
 
-    def __init__(self, frame_constants, **kw):
+    def __init__(self, frame_constants, ring, **kw):
         self.fc = frame_constants
+        self.ring = ring
         self.post_init(**kw)
 
     def post_init(self, **kw):
