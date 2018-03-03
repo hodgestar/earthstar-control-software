@@ -4,7 +4,8 @@
 
 import numpy as np
 
-from .engine import Effect, ColourArg, FloatArg, IntArg
+from .argtypes import ColourArg, FloatArg, IntArg
+from .engine import Effect
 
 
 class SpindotsEffect(Effect):
