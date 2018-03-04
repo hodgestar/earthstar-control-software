@@ -17,6 +17,31 @@ It comes in three parts:
 The pieces communicate using ZeroMQ.
 
 
+Todo
+----
+
+* Make the number of LEDs per ring more realistic.
+* Add post effect capping of colour values.
+* Add a post-effect transformation that maps the virtual ring to the
+  physical ring and supports:
+
+  * Re-ordering the rings.
+  * Rotating the rings.
+  * Reversing the direction of rings.
+
+* Experiment with the Wii controller.
+* Other approaches to rendering to the ring (effects that take account of
+  the rings spatial location).
+
+
+Effect ideas
+------------
+
+* Sparkle (in progress).
+* Full sphere pulse.
+* Flames from direction.
+
+
 Quickstart
 ----------
 
