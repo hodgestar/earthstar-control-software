@@ -28,6 +28,7 @@ Todo
   * Re-ordering the rings.
   * Rotating the rings.
   * Reversing the direction of rings.
+  * Adjusting relative brightness of RGB LEDs.
 
 * Experiment with the Wii controller.
 * Other approaches to rendering to the ring (effects that take account of
