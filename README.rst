@@ -31,6 +31,9 @@ Todo
   * Adjusting relative brightness of RGB LEDs.
 
 * Experiment with the Wii controller.
+
+  * See https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/wiimote/
+
 * Other approaches to rendering to the ring (effects that take account of
   the rings spatial location).
 
