@@ -20,7 +20,6 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Make the number of LEDs per ring more realistic.
 * Add post effect capping of colour values.
 * Add a post-effect transformation that maps the virtual ring to the
   physical ring and supports:
@@ -30,12 +29,20 @@ Todo
   * Reversing the direction of rings.
   * Adjusting relative brightness of RGB LEDs.
 
+* Other approaches to rendering to the ring (effects that take account of
+  the rings spatial location).
+
+Implemented ideas
+-----------------
+
+* Make the number of LEDs per ring more realistic
+
+Discarded ideas
+---------------
+
 * Experiment with the Wii controller.
 
   * See https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/wiimote/
-
-* Other approaches to rendering to the ring (effects that take account of
-  the rings spatial location).
 
 
 Effect ideas
