@@ -54,7 +54,7 @@ class Worm(object):
             ring, pos = next_ring, next_pos
             length_remaining -= n
         if length_remaining <= 0:
-            del self.crossings[crossing:]
+            del self.crossings[crossing + 1:]
         while length_remaining > 0:
             end = min(pos + length_remaining, self.fc.c)
             n = end - pos
