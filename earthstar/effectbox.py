@@ -20,7 +20,6 @@ import click
 import zmq
 
 from .effects.engine import EffectEngine
-from .effects.spindots import SpindotsEffect
 
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
@@ -44,7 +43,9 @@ def main(fps, effect_addr, frame_addr):
     effect_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
 
     engine = EffectEngine()
-    engine.add_type(SpindotsEffect)
+    engine.add_default_command_types()
+    engine.add_default_animation_types()
+    engine.add_animation("ground_and_sky")
 
     while True:
         try:
@@ -53,7 +54,7 @@ def main(fps, effect_addr, frame_addr):
             if not err.errno == zmq.EAGAIN:
                 raise
         else:
-            engine.add_effect(json.loads(effect))
+            engine.apply_command(json.loads(effect))
         frame = engine.next_frame()
         frame_socket.send(frame.tobytes())
         # click.echo("Sent frame.")
