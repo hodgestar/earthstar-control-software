@@ -7,7 +7,28 @@ import random
 import numpy as np
 
 
-class IntArg:
+class StrArg(object):
+    def __init__(self, allow_null=False):
+        self._allow_null = allow_null
+
+    def __call__(self, v):
+        if self._allow_null and v is None:
+            return None
+        return str(v)
+
+
+class DictArg(object):
+    def __init__(self, allow_null=False):
+        self._allow_null = allow_null
+
+    def __call__(self, v):
+        if self._allow_null and v is None:
+            return v
+        assert isinstance(v, dict)
+        return v
+
+
+class IntArg(object):
     def __init__(self, default, min=None, max=None):
         self._default = default
         self._min = min
@@ -25,7 +46,7 @@ class IntArg:
         return v
 
 
-class FloatArg:
+class FloatArg(object):
     def __init__(self, default, min=None, max=None):
         self._default = default
         self._min = min
@@ -43,7 +64,7 @@ class FloatArg:
         return v
 
 
-class ColourArg:
+class ColourArg(object):
 
     DEFAULT_COLOURS = [
         (255, 0, 0),
