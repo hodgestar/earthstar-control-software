@@ -8,12 +8,27 @@
   <div class="container">
       <div class="page-header">
         <h1 style="margin-bottom: 1em;">Earthstar Contoller</h1>
+        <div class="row">
           {% for ring in range(6) %}
-            <input type="text" value="75" data-ring="{{ ring }}" class="dial">
+            <div class="col-md-4">
+              <input type="text" value="75" data-ring="{{ ring }}" class="dial">
+            </div>
             {% if ring % 3 == 2 %}
-            <br>
+        </div>
+        <div class="row">
             {% endif %}
           {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+              <input type="button" value="Change Now!"
+                     class="btn btn-success btn-lg change-now"
+                     style="margin: 2em">
+              <input type="button" value="No Change!"
+                     class="btn btn-danger btn-lg change-not-now"
+                     style="margin: 2em">
+            </div>
+        </div>
       </div>
   </div>
 {% endblock %}
@@ -30,7 +45,6 @@
             "step": 2 * PI / 180,
             release: function (value) {
                 var ring = this.$.attr('data-ring');
-                console.log("Ring " + ring + ": " + value);
                 $.ajax({
                   type: "POST",
                   url: "{{ url_for('effect_api.spindots') }}",
@@ -40,6 +54,26 @@
                   success: null,
                 });
             },
+        });
+        $(".change-now").click(function (ev) {
+          $.ajax({
+            type: "POST",
+            url: "{{ url_for('effect_api.transition_timer') }}",
+            data: JSON.stringify({seconds: 0}),
+            dataType: "json",
+            contentType: "application/json",
+            success: null,
+          });
+        });
+        $(".change-not-now").click(function (ev) {
+          $.ajax({
+            type: "POST",
+            url: "{{ url_for('effect_api.transition_timer') }}",
+            data: JSON.stringify({seconds: 60}),
+            dataType: "json",
+            contentType: "application/json",
+            success: null,
+          });
         });
     });
 </script>
