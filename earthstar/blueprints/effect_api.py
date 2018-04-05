@@ -33,9 +33,13 @@ def transition_timer():
 def spindots():
     data = request.get_json()
     effect = {
-        'type': 'spindots',
-        'ring': data["ring"],
-        'angle': data["angle"],
+        'type': 'add-animation',
+        'layer': None,
+        'animation': {
+            'type': "spindots",
+            'ring': data["ring"],
+            'angle': data["angle"],
+        },
     }
     current_app.effect_socket.send(json.dumps(effect))
     return jsonify(effect)
