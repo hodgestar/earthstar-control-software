@@ -23,17 +23,20 @@ class LotsOfDots(Animation):
     ]
 
     def post_init(self):
+        self._colours = [
+            self.fc.colour(*c) for c in self.DOT_COLOURS
+        ]
         self._spindotses = []
         for ring in range(self.fc.n_rings):
             self._spindotses.extend(
                 self._random_spindots(ring) for _ in range(3))
 
-    def _random_spindot(self, ring):
+    def _random_spindots(self, ring):
         dots = random.randint(5, 20)
         angle = random.uniform(0, 2 * math.pi)
         rotation_speed = random.randint(0, 5)
         spread = random.randint(1, self.fc.leds_per_ring / dots)
-        colour = random.choice(self.DOT_COLOURS)
+        colour = random.choice(self._colours)
         return Spindots(
             self.fc, ring, angle, colour, dots, rotation_speed, spread)
 
