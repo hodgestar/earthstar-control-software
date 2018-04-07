@@ -3,12 +3,12 @@
 """ Animations package. """
 
 from ..engine import Animation
-from .ground_and_sky import GroundAndSky
 from .lots_of_dots import LotsOfDots
+from .lots_of_worms import LotsOfWorms
 
 DEFAULT_ANIMATIONS = [
-    GroundAndSky,
     LotsOfDots,
+    LotsOfWorms,
 ]
 
 
