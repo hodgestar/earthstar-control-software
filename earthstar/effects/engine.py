@@ -2,7 +2,6 @@
 
 """ Engine and base classes for applying effects. """
 
-import numpy as np
 import random
 
 import click
@@ -78,9 +77,7 @@ class EffectEngine(object):
         if self._next_transition <= 0:
             self.set_next_transition(self._transition_time)
             self.set_random_animation()
-        frame = np.zeros(
-            self._frame_constants.frame_shape,
-            dtype=self._frame_constants.frame_dtype)
+        frame = self._frame_constants.empty_frame()
         for layer in self._animation_layers:
             for animation in self._animations[layer][:]:
                 animation.render(frame)
@@ -136,3 +133,20 @@ class Animation(object):
 
     def render(self, frame):
         """ Render the animation to the frame. """
+
+
+class Unit(object):
+    """ Base unit class.
+
+        A unit is simply a building block for building animations on
+        top of.
+    """
+
+    def step(self):
+        """ Update the unit one time step.
+
+            Updates to unit state should happen here.
+        """
+
+    def render(self, frame):
+        """ Render the unit to the given frame. """
