@@ -3,16 +3,25 @@
 """ Engine and base classes for applying effects. """
 
 import numpy as np
+import random
+
+import click
 
 from .. import frame_utils
 
 
 class EffectEngine(object):
-    """ Engine for applying effects. """
+    """ Engine for applying effects.
 
-    LAYERS = ['background'] + []
+        Parameters
+        ----------
+        tick : float
+            Time step between frames.
+        transition : float
+            Time between animation transitions.
+    """
 
-    def __init__(self):
+    def __init__(self, tick, transition=60):
         self._command_types = {}
         self._animation_types = {}
         self._frame_constants = frame_utils.FrameConstants()
@@ -20,7 +29,10 @@ class EffectEngine(object):
             'background', 'default', 'foreground',
         ]
         self._animations = dict((k, []) for k in self._animation_layers)
-        self._next_transition_seconds = 60
+        self._tick = tick
+        self._transition_time = transition
+        # do first transition straight away
+        self._next_transition = 0
 
     def add_command_type(self, command_cls):
         self._command_types[command_cls.COMMAND] = command_cls
@@ -45,15 +57,27 @@ class EffectEngine(object):
         animation = animation_cls(self._frame_constants, **kw)
         self._animations[layer].append(animation)
 
+    def set_random_animation(self, layer=None):
+        if layer is None:
+            layer = "default"
+        del self._animations[layer][:]
+        name = random.choice(self._animation_types.keys())
+        click.echo("New animation: {!r}".format(name))
+        self.add_animation(name, layer=layer)
+
     def apply_command(self, kw):
         command_cls = self._command_types[kw.pop("type")]
         command = command_cls(**kw)
         command.apply(self)
 
-    def set_transition_timer(self, seconds):
-        self._next_transition_seconds = seconds
+    def set_next_transition(self, seconds):
+        self._next_transition = seconds
 
     def next_frame(self):
+        self._next_transition -= self._tick
+        if self._next_transition <= 0:
+            self.set_next_transition(self._transition_time)
+            self.set_random_animation()
         frame = np.zeros(
             self._frame_constants.frame_shape,
             dtype=self._frame_constants.frame_dtype)
