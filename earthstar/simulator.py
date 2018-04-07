@@ -33,6 +33,7 @@ class SimEarthstar(object):
         )
         self._fps = fps
         self._print_fps = print_fps
+        self._paused = False
 
     def setup(self):
         faulthandler.enable()
@@ -45,6 +46,9 @@ class SimEarthstar(object):
 
     def teardown(self):
         pygame.quit()
+
+    def paused(self):
+        return self._paused
 
     def render(self, frame):
         self._earthstar.update(frame)
@@ -69,10 +73,12 @@ class SimEarthstar(object):
                     earthstar.rotate_z(5)
                 elif event.key == pygame.K_x:
                     earthstar.rotate_z(-5)
+                elif event.key == pygame.K_SPACE:
+                    self._paused = not self._paused
             elif event.type == pygame.VIDEORESIZE:
                 screen_size = event.size
                 gl_init(screen_size, self._display_mode)
-        self._earthstar.display()
+        earthstar.display()
         pygame.display.flip()
         self._clock.tick(self._fps)
         if self._print_fps:
@@ -303,10 +309,10 @@ def main(fps, print_fps, frame_addr):
                 if not err.errno == zmq.EAGAIN:
                     raise
             else:
-                frame = np.frombuffer(data, dtype=frame_utils.FRAME_DTYPE)
-                frame.shape = frame_utils.FRAME_SHAPE
+                if not s.paused():
+                    frame = np.frombuffer(data, dtype=frame_utils.FRAME_DTYPE)
+                    frame.shape = frame_utils.FRAME_SHAPE
                 s.render(frame)
-                # click.echo("Frame received.")
             s.tick()
     except ExitSimulator:
         pass
