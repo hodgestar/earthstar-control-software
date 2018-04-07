@@ -20,6 +20,7 @@ import click
 import zmq
 
 from .effects.engine import EffectEngine
+from .effects.animations import import_animation
 
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
@@ -30,12 +31,15 @@ from .effects.engine import EffectEngine
     '--transition', default=60,
     help='Time between animation transitions.')
 @click.option(
+    '--animation', default=None,
+    help='Run only a selected animation.')
+@click.option(
     '--effect-addr', default='tcp://127.0.0.1:5555',
     help='ZeroMQ address to receive events from.')
 @click.option(
     '--frame-addr', default='tcp://127.0.0.1:5556',
     help='ZeroMQ address to publish frames too.')
-def main(fps, transition, effect_addr, frame_addr):
+def main(fps, transition, animation, effect_addr, frame_addr):
     click.echo("Earthstar effectbox running.")
     tick = 1. / fps
     context = zmq.Context()
@@ -47,7 +51,10 @@ def main(fps, transition, effect_addr, frame_addr):
 
     engine = EffectEngine(tick=tick, transition=transition)
     engine.add_default_command_types()
-    engine.add_default_animation_types()
+    if animation:
+        engine.add_animation_type(import_animation(animation))
+    else:
+        engine.add_default_animation_types()
 
     while True:
         try:
