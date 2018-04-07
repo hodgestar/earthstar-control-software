@@ -1,42 +1,43 @@
 # -*- coding: utf-8 -*-
 
-""" Spinning dots animation. """
+""" Lots of dots animation. """
 
-import numpy as np
+import math
+import random
 
-from ..argtypes import ColourArg, FloatArg, IntArg
 from ..engine import Animation
+from ..units.spindots import Spindots
 
 
-class Spindots(Animation):
+class LotsOfDots(Animation):
 
-    ANIMATION = "spindots"
+    ANIMATION = __name__
     ARGS = {
-        "ring": IntArg(default=0, min=0),
-        "angle": FloatArg(default=0.0),
-        "colour": ColourArg(),
-        "dots": IntArg(default=4, min=1, max=10),
-        "rotation_speed": IntArg(default=1, min=1, max=10),
-        "spread": IntArg(default=5, min=1, max=15),
-        "ticks": IntArg(default=500, min=1, max=1000),
     }
 
-    def post_init(self):
-        roll = int(np.round(
-            self.fc.leds_per_ring * (1. + (self.angle / np.pi))))
-        self._ring = np.zeros(self.fc.ring_shape, dtype=self.fc.frame_dtype)
-        for start in np.linspace(
-                0, self.fc.leds_per_ring, self.dots,
-                endpoint=False, dtype=int):
-            for i, f in enumerate(np.linspace(0., 1., self.spread)):
-                self._ring[start + i] = self.colour * f
-        self._ring = np.roll(self._ring, roll, axis=0)
+    DOT_COLOURS = [
+        (255, 0, 0),
+        (0, 255, 0),
+        (0, 0, 255),
+        (255, 215, 0),
+    ]
 
-    def done(self):
-        return self.ticks <= 0
+    def post_init(self):
+        self._spindotses = []
+        for ring in range(self.fc.n_rings):
+            self._spindotses.extend(
+                self._random_spindots(ring) for _ in range(3))
+
+    def _random_spindot(self, ring):
+        dots = random.randint(5, 20)
+        angle = random.uniform(0, 2 * math.pi)
+        rotation_speed = random.randint(0, 5)
+        spread = random.randint(1, self.fc.leds_per_ring / dots)
+        colour = random.choice(self.DOT_COLOURS)
+        return Spindots(
+            self.fc, ring, angle, colour, dots, rotation_speed, spread)
 
     def render(self, frame):
-        self._ring = np.roll(self._ring, self.rotation_speed, axis=0)
-        frame[self.ring] = np.where(
-            self._ring != 0, self._ring, frame[self.ring])
-        self.ticks -= 1
+        for dot in self._spindotses:
+            dot.step()
+            dot.render(frame)
