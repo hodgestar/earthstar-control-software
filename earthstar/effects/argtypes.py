@@ -2,6 +2,7 @@
 
 """ Effect argument types. """
 
+
 class StrArg(object):
     def __init__(self, allow_null=False):
         self._allow_null = allow_null
