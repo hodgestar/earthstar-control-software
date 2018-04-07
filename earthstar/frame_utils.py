@@ -43,14 +43,17 @@ class FrameConstants(object):
         (5, C2 + HTS): (3, C2 - HTS),
     }
 
+    def colour(self, r, g, b):
+        """ Return a colour numpy array. """
+        return np.array((r, g, b), dtype=self.frame_dtype)
+
     def empty_ring(self):
         """ Return an numpy array for ring. """
+        return np.zeros(self.ring_shape, dtype=self.frame_dtype)
 
     def empty_frame(self):
         """ Return an numpy array for frame. """
-        np.zeros(
-            self._frame_constants.frame_shape,
-            dtype=self._frame_constants.frame_dtype)
+        return np.zeros(self.frame_shape, dtype=self.frame_dtype)
 
 
 def candy_stripes():
