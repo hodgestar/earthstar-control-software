@@ -22,7 +22,7 @@ C8 = FTS = LEDS_PER_RING / 8  # full triangle side
 C16 = HTS = LEDS_PER_RING / 16  # half triange side
 
 
-class FrameConstants:
+class FrameConstants(object):
     """ Holder for frame constants. """
     n_rings = N_RINGS
     leds_per_ring = LEDS_PER_RING
@@ -42,6 +42,15 @@ class FrameConstants:
         (4, C2 + HTS): (5, C2 - HTS),
         (5, C2 + HTS): (3, C2 - HTS),
     }
+
+    def empty_ring(self):
+        """ Return an numpy array for ring. """
+
+    def empty_frame(self):
+        """ Return an numpy array for frame. """
+        np.zeros(
+            self._frame_constants.frame_shape,
+            dtype=self._frame_constants.frame_dtype)
 
 
 def candy_stripes():
