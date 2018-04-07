@@ -15,7 +15,7 @@ from ..units.worm import Worm
 
 class GroundAndSky(Animation):
 
-    ANIMATION = "ground_and_sky"
+    ANIMATION = __name__
     ARGS = {
     }
 
