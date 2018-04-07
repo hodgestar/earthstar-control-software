@@ -21,6 +21,20 @@ C4 = LEDS_PER_RING / 4
 C8 = FTS = LEDS_PER_RING / 8  # full triangle side
 C16 = HTS = LEDS_PER_RING / 16  # half triange side
 
+# Ring crossings
+CROSSINGS = {
+    # Ring pair crosings
+    (0, C4): (1, C2 + C4),
+    (0, C2 + C4): (1, C4),
+    (2, C4): (3, C2 + C4),
+    (2, C2 + C4): (3, C4),
+    (4, C4): (5, C2 + C4),
+    (4, C2 + C4): (5, C4),
+    # (3, HTS): (4, -HTS % C),  # ground triangle
+    # (3, C2 + HTS): (4, C2 - HTS),  # sky triangle
+}
+CROSSINGS.update((v, k) for k, v in CROSSINGS.items())
+
 
 class FrameConstants(object):
     """ Holder for frame constants. """
@@ -34,14 +48,7 @@ class FrameConstants(object):
     c4 = C4
     c8 = fts = C8
     c16 = hts = C16
-    crossings = {
-        (3, HTS): (4, -HTS % C),  # ground triangle
-        (4, HTS): (5, -HTS % C),
-        (5, HTS): (3, -HTS % C),
-        (3, C2 + HTS): (4, C2 - HTS),  # sky triangle
-        (4, C2 + HTS): (5, C2 - HTS),
-        (5, C2 + HTS): (3, C2 - HTS),
-    }
+    crossings = CROSSINGS.copy()
 
     def colour(self, r, g, b):
         """ Return a colour numpy array. """
