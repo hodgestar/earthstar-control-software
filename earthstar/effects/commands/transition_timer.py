@@ -14,4 +14,4 @@ class TransitionTimer(Command):
     }
 
     def apply(self, engine):
-        engine.set_transition_timer(self.seconds)
+        engine.set_next_transition(self.seconds)
