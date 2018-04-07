@@ -3,8 +3,10 @@
 """ A worm that crosses rings.
 """
 
+from ..engine import Unit
 
-class Worm(object):
+
+class Worm(Unit):
     def __init__(self, fc, ring, pos, speed, length, colour):
         self.fc = fc
         self.ring = ring
