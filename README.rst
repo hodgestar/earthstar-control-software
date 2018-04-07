@@ -20,6 +20,10 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
+* Add ring calibration animation with dots at ring joins.
+* Add all ring joins.
+* Fix worm unit.
+* Turn ground and sky into lots_of_worms.
 * Add post effect capping of colour values.
 * Add a post-effect transformation that maps the virtual ring to the
   physical ring and supports:
