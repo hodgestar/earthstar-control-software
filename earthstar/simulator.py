@@ -300,7 +300,8 @@ def main(fps, print_fps, frame_addr):
     frame_socket.connect(frame_addr)
     frame_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
 
-    frame = frame_utils.candy_stripes()
+    fc = frame_utils.FrameConstants()
+    frame = fc.empty_frame()
     try:
         while True:
             try:
