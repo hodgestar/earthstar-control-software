@@ -3,10 +3,12 @@
 """ Animations package. """
 
 from ..engine import Animation
+from .candy_stripes import CandyStripes
 from .lots_of_dots import LotsOfDots
 from .lots_of_worms import LotsOfWorms
 
 DEFAULT_ANIMATIONS = [
+    CandyStripes,
     LotsOfDots,
     LotsOfWorms,
 ]
