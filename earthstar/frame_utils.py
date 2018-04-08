@@ -35,20 +35,32 @@ CROSSINGS = {
 }
 CROSSINGS.update((v, k) for k, v in CROSSINGS.items())
 
+# Simulator virtual to physical mappings
+SIMULATOR_VIRTUAL_TO_PHYSICAL = [
+    (0, 0, False),  # virtual ring, offset in LEDs, flip (True or False)
+    (1, 0, False),
+    (2, 0, False),
+    (3, 0, False),
+    (4, 0, False),
+    (5, 0, True),
+]
+
 
 class FrameConstants(object):
     """ Holder for frame constants. """
-    n_rings = N_RINGS
-    leds_per_ring = LEDS_PER_RING
-    frame_shape = FRAME_SHAPE
-    ring_shape = RING_SHAPE
-    frame_dtype = FRAME_DTYPE
-    c = C
-    c2 = C2
-    c4 = C4
-    c8 = fts = C8
-    c16 = hts = C16
-    crossings = CROSSINGS.copy()
+    def __init__(self):
+        self.n_rings = N_RINGS
+        self.leds_per_ring = LEDS_PER_RING
+        self.frame_shape = FRAME_SHAPE
+        self.ring_shape = RING_SHAPE
+        self.frame_dtype = FRAME_DTYPE
+        self.c = C
+        self.c2 = C2
+        self.c4 = C4
+        self.c8 = self.fts = C8
+        self.c16 = self.hts = C16
+        self.crossings = CROSSINGS.copy()
+        self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
 
     def colour(self, r, g, b):
         """ Return a colour numpy array. """
@@ -61,6 +73,18 @@ class FrameConstants(object):
     def empty_frame(self):
         """ Return an numpy array for frame. """
         return np.zeros(self.frame_shape, dtype=self.frame_dtype)
+
+    def virtual_to_physical(self, virt_frame):
+        """ Transform a virtual frame into a phyiscal one. """
+        phys_frame = self.empty_frame()
+        for phys_ring, (virt_ring, offset, flip) in enumerate(
+                self._virtual_to_physical):
+            phys_frame[phys_ring] = np.roll(
+                virt_frame[virt_ring], offset, axis=0)
+            if flip:
+                phys_frame[phys_ring].flip(axis=0)
+
+
 
 
 def candy_stripes():
