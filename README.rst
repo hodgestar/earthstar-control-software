@@ -21,22 +21,23 @@ Todo
 ----
 
 * Add all ring joins.
+* White LEDs.
+* Put candy stripies into an animation.
 * Add post effect capping of colour values.
-* Add a post-effect transformation that maps the virtual ring to the
-  physical ring and supports:
-
-  * Re-ordering the rings.
-  * Rotating the rings.
-  * Reversing the direction of rings.
-  * Adjusting relative brightness of RGB LEDs.
-
-* Other approaches to rendering to the ring (effects that take account of
-  the rings spatial location).
+* Add post effect adjusting of relative brightness of LEDs.
+* Spherical co-ordinates unit for rendering to a complete virtual sphere.
 
 Implemented ideas
 -----------------
 
-* Make the number of LEDs per ring more realistic
+* Added post-effect transformation that maps the virtual ring to the physical
+  ring and supports: re-ordering the rings, rotating the rings and
+  flipping the rings.
+* Added worms unit.
+* Added spindots unit.
+* Implemented swapping between animations.
+* Implemented commands.
+* Made the number of LEDs per ring more realistic (450).
 
 Discarded ideas
 ---------------
