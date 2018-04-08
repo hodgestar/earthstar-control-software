@@ -22,7 +22,6 @@ Todo
 
 * Add all ring joins.
 * White LEDs.
-* Put candy stripies into an animation.
 * Add post effect capping of colour values.
 * Add post effect adjusting of relative brightness of LEDs.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
