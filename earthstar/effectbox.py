@@ -67,6 +67,7 @@ def main(fps, transition, animation, effect_addr, frame_addr):
         else:
             engine.apply_command(json.loads(effect))
         frame = engine.next_frame()
+        frame = fc.virtual_to_physical(frame)
         frame_socket.send(frame.tobytes())
         time.sleep(tick)
     click.echo("Earthstar effectbox exited.")

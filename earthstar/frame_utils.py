@@ -42,7 +42,7 @@ SIMULATOR_VIRTUAL_TO_PHYSICAL = [
     (2, 0, False),
     (3, 0, False),
     (4, 0, False),
-    (5, 0, True),
+    (5, 0, False),
 ]
 
 
@@ -82,9 +82,8 @@ class FrameConstants(object):
             phys_frame[phys_ring] = np.roll(
                 virt_frame[virt_ring], offset, axis=0)
             if flip:
-                phys_frame[phys_ring].flip(axis=0)
-
-
+                phys_frame[phys_ring] = np.flip(phys_frame[phys_ring], axis=0)
+        return phys_frame
 
 
 def candy_stripes():
