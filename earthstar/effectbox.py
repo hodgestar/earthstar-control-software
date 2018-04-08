@@ -21,6 +21,7 @@ import zmq
 
 from .effects.engine import EffectEngine
 from .effects.animations import import_animation
+from .frame_utils import FrameConstants
 
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
@@ -49,7 +50,8 @@ def main(fps, transition, animation, effect_addr, frame_addr):
     effect_socket.connect(effect_addr)
     effect_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
 
-    engine = EffectEngine(tick=tick, transition=transition)
+    fc = FrameConstants()
+    engine = EffectEngine(fc=fc, tick=tick, transition=transition)
     engine.add_default_command_types()
     if animation:
         engine.add_animation_type(import_animation(animation))

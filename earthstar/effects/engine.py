@@ -6,24 +6,24 @@ import random
 
 import click
 
-from .. import frame_utils
-
 
 class EffectEngine(object):
     """ Engine for applying effects.
 
         Parameters
         ----------
+        fc : FrameConstants
+            The constants defining the earthstar.
         tick : float
             Time step between frames.
         transition : float
             Time between animation transitions.
     """
 
-    def __init__(self, tick, transition=60):
+    def __init__(self, fc, tick, transition=60):
         self._command_types = {}
         self._animation_types = {}
-        self._frame_constants = frame_utils.FrameConstants()
+        self._frame_constants = fc
         self._animation_layers = [
             'background', 'default', 'foreground',
         ]
