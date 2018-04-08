@@ -84,18 +84,3 @@ class FrameConstants(object):
             if flip:
                 phys_frame[phys_ring] = np.flip(phys_frame[phys_ring], axis=0)
         return phys_frame
-
-
-def candy_stripes():
-    """ Return a candy striped frame. """
-    def ring_colours(c1, c2):
-        return [c1, c2] * (LEDS_PER_RING / 2)
-
-    return np.array([
-        ring_colours([0, 255, 0], [0, 0, 255]),
-        ring_colours([128, 255, 0], [128, 0, 255]),
-        ring_colours([255, 0, 0], [0, 0, 255]),
-        ring_colours([255, 128, 0], [0, 128, 255]),
-        ring_colours([255, 0, 0], [0, 255, 0]),
-        ring_colours([255, 0, 128], [0, 255, 128]),
-    ], dtype=np.uint8)
