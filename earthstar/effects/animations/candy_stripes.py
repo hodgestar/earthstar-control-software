@@ -25,12 +25,12 @@ class CandyStripes(Animation):
     def post_init(self):
         self.stripe_width = 4
         self._stripes = np.array([
-            self.ring_colours([0, 255, 0], [0, 0, 255]),
-            self.ring_colours([128, 255, 0], [128, 0, 255]),
-            self.ring_colours([255, 0, 0], [0, 0, 255]),
-            self.ring_colours([255, 128, 0], [0, 128, 255]),
-            self.ring_colours([255, 0, 0], [0, 255, 0]),
-            self.ring_colours([255, 0, 128], [0, 255, 128]),
+            self.ring_colours([0, 0, 255, 0], [0, 0, 0, 255]),
+            self.ring_colours([0, 128, 255, 0], [0, 128, 0, 255]),
+            self.ring_colours([0, 255, 0, 0], [0, 0, 0, 255]),
+            self.ring_colours([0, 255, 128, 0], [0, 0, 128, 255]),
+            self.ring_colours([0, 255, 0, 0], [0, 0, 255, 0]),
+            self.ring_colours([0, 255, 0, 128], [0, 0, 255, 128]),
         ], dtype=np.uint8)
 
     def render(self, frame):

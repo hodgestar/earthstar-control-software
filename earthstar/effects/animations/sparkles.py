@@ -23,10 +23,10 @@ class Sparkles(Animation):
 
     def post_init(self):
         self.sparkle_colours = [
-            self.fc.colour(255, 255, 255),
-            self.fc.colour(255, 0, 255),
-            self.fc.colour(0, 0, 255),
-            self.fc.colour(255, 0, 0),
+            self.fc.colour(0, 255, 255, 255),
+            self.fc.colour(0, 255, 0, 255),
+            self.fc.colour(0, 0, 0, 255),
+            self.fc.colour(0, 255, 0, 0),
         ]
         self.sparkles = []
         colour = random.choice(self.sparkle_colours)

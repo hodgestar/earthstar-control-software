@@ -61,4 +61,7 @@ class Worm(Unit):
                 start, end = end, start
             n = end - start
             if n > 0:
+                print(frame[ring][start:end])
+                print(self.colour)
+                print(n)
                 frame[ring][start:end] = [self.colour] * n
