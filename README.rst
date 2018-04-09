@@ -29,6 +29,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Add sparkle animation.
 * Added candy stripes animation.
 * Added post-effect transformation that maps the virtual ring to the physical
   ring and supports: re-ordering the rings, rotating the rings and
