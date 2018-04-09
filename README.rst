@@ -20,6 +20,8 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
+* Fix out-by-one error in segment endpoint when worm crosses
+  end of ring.
 * Add all ring joins.
 * White LEDs.
 * Add post effect capping of colour values.
