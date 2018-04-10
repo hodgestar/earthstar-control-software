@@ -7,12 +7,14 @@ from .candy_stripes import CandyStripes
 from .lots_of_dots import LotsOfDots
 from .lots_of_worms import LotsOfWorms
 from .sparkles import Sparkles
+from .ring_primary_colour import RingPrimaryColour
 
 DEFAULT_ANIMATIONS = [
     CandyStripes,
     LotsOfDots,
     LotsOfWorms,
     Sparkles,
+    RingPrimaryColour,
 ]
 
 
