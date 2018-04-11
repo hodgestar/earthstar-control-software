@@ -10,8 +10,8 @@ import numpy as np
 # Fundamental constants of the ring universe
 N_RINGS = 6
 LEDS_PER_RING = 450
-FRAME_SHAPE = (N_RINGS, LEDS_PER_RING, 3)
-RING_SHAPE = (LEDS_PER_RING, 3)
+FRAME_SHAPE = (N_RINGS, LEDS_PER_RING, 4)
+RING_SHAPE = (LEDS_PER_RING, 4)
 FRAME_DTYPE = np.uint8
 
 # Derived numbers of LEDs for a given fraction of a circle
@@ -62,9 +62,9 @@ class FrameConstants(object):
         self.crossings = CROSSINGS.copy()
         self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
 
-    def colour(self, r, g, b):
+    def colour(self, r, g, b, w=0):
         """ Return a colour numpy array. """
-        return np.array((r, g, b), dtype=self.frame_dtype)
+        return np.array((w, r, g, b), dtype=self.frame_dtype)
 
     def empty_ring(self):
         """ Return an numpy array for ring. """

@@ -197,13 +197,15 @@ class Earthstar(object):
 
             * one row per ring (6 rows)
             * one column per LED (LEDS_PER_RING)
-            * three colours per LED (0 - 255)
+            * four colours per LED (white, red, blue, green, each 0 - 255)
         """
         assert frame.shape == frame_utils.FRAME_SHAPE
         assert frame.dtype == frame_utils.FRAME_DTYPE
         frame = frame / 255.
+        # remove white values from each LED
+        colours = np.delete(frame, 0, axis=2)
         # add opacity of 1.0 to each colour
-        colours = np.insert(frame, 3, 1.0, axis=2)
+        colours = np.insert(colours, 3, 1.0, axis=2)
         # flatten before repeat
         colours.shape = (self.N_RINGS * self.LEDS_PER_RING, 4)
         # repeat n vertices per led

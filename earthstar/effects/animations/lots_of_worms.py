@@ -20,11 +20,11 @@ class LotsOfWorms(Animation):
     def post_init(self):
         self.worms = [
             Worm(self.fc, ring=1, start=0, speed=5, length=100,
-                 colour=(255, 0, 0)),
+                 colour=self.fc.colour(255, 0, 0)),
             Worm(self.fc, ring=3, start=0, speed=5, length=100,
-                 colour=(255, 0, 255)),
+                 colour=self.fc.colour(255, 0, 255)),
             Worm(self.fc, ring=5, start=0, speed=5, length=100,
-                 colour=(0, 0, 255)),
+                 colour=self.fc.colour(0, 0, 255)),
         ]
 
     def render(self, frame):
