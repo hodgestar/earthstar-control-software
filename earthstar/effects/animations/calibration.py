@@ -15,16 +15,16 @@ class Calibration(Animation):
     }
 
     COLOURS = [
-        (255, 0, 0),
-        (0, 255, 0),
-        (0, 0, 255),
-        (255, 100, 100),
-        (100, 255, 100),
-        (100, 100, 255),
+        (0, 255, 0, 0),
+        (0, 0, 255, 0),
+        (0, 0, 0, 255),
+        (0, 255, 100, 100),
+        (0, 100, 255, 100),
+        (0, 100, 100, 255),
     ]
 
     def post_init(self):
-        self._white = self.fc.colour(255, 255, 255)
+        self._white = self.fc.colour(0, 255, 255, 255)
         self._colours = [self.fc.colour(*c) for c in self.COLOURS]
         self._crossings = {r: [] for r in range(self.fc.n_rings)}
         for src, dst in self.fc.crossings.items():
