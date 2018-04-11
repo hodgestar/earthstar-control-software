@@ -59,6 +59,7 @@ def main(fps, transition, animation, effect_addr, frame_addr):
         engine.add_default_animation_types()
 
     while True:
+        start = time.time()
         try:
             effect = effect_socket.recv(flags=zmq.NOBLOCK)
         except zmq.ZMQError as err:
@@ -69,5 +70,7 @@ def main(fps, transition, animation, effect_addr, frame_addr):
         frame = engine.next_frame()
         frame = fc.virtual_to_physical(frame)
         frame_socket.send(frame.tobytes())
-        time.sleep(tick)
+        sleep_time = tick - (time.time() - start)
+        if sleep_time > 0:
+            time.sleep(sleep_time)
     click.echo("Earthstar effectbox exited.")
