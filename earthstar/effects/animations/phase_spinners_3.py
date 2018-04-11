@@ -23,8 +23,8 @@ class PhaseSpinners2(Animation):
         return (pair * repeats)[:self.fc.leds_per_ring]
 
     def post_init(self):
-        self.stripe_width_on = 2
-        self.stripe_width_off = 48
+        self.stripe_width_on = 6
+        self.stripe_width_off = 144
         self._rings = np.array([
             self.ring_render(self.fc.colour(200, 200, 200), self.fc.colour(0, 0, 0)),
             self.ring_render(self.fc.colour(200, 200, 200), self.fc.colour(0, 0, 0)),
@@ -33,7 +33,7 @@ class PhaseSpinners2(Animation):
             self.ring_render(self.fc.colour(200, 200, 200), self.fc.colour(0, 0, 0)),
             self.ring_render(self.fc.colour(200, 200, 200), self.fc.colour(0, 0, 0)),
         ], dtype=np.uint8)
-        self.speed = [2, 4, 6, 8, 10, 12]
+        self.speed = [1, 2, 3, 4, 5, 6]
 
     def render(self, frame):
         return self.animation(frame)
