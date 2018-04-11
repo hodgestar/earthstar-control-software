@@ -23,14 +23,14 @@ Todo
 * Fix out-by-one error in segment endpoint when worm crosses
   end of ring.
 * Add all ring joins.
-* White LEDs.
 * Add post effect capping of colour values.
-* Add post effect adjusting of relative brightness of LEDs.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
 
 Implemented ideas
 -----------------
 
+* Added support for white LEDs in effectbox and simulator doesn't
+  break in the presence of the white LEDs.
 * Add sparkle animation.
 * Added candy stripes animation.
 * Added post-effect transformation that maps the virtual ring to the physical
@@ -42,18 +42,22 @@ Implemented ideas
 * Implemented commands.
 * Made the number of LEDs per ring more realistic (450).
 
+
 Discarded ideas
 ---------------
 
-* Experiment with the Wii controller.
+* Experiment with the Wii controller (knock-off Wii controller was difficult
+  to get working).
 
   * See https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/wiimote/
+
+* Add post effect adjusting of relative brightness of LEDs (real LEDs seem
+  not to need brightness compensation).
 
 
 Effect ideas
 ------------
 
-* Sparkle (in progress).
 * Full sphere pulse.
 * Flames from direction.
 
