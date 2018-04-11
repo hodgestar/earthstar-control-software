@@ -59,6 +59,7 @@ class Worm(Unit):
         for ring, start, end in self.segments:
             if end < start:
                 start, end = end, start
+            end += 1  # draw all the way to the end of the range
             n = end - start
             if n > 0:
                 frame[ring][start:end] = [self.colour] * n

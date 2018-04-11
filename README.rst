@@ -20,8 +20,6 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Fix out-by-one error in segment endpoint when worm crosses
-  end of ring.
 * Add all ring joins.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
@@ -29,6 +27,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Fixed out-by-one error in segment endpoints when rendering worms.
 * Added support for white LEDs in effectbox and simulator doesn't
   break in the presence of the white LEDs.
 * Add sparkle animation.
