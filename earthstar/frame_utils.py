@@ -18,8 +18,11 @@ FRAME_DTYPE = np.uint8
 C = LEDS_PER_RING
 C2 = LEDS_PER_RING / 2
 C4 = LEDS_PER_RING / 4
-C8 = FTS = LEDS_PER_RING / 8  # full triangle side
-C16 = HTS = LEDS_PER_RING / 16  # half triange side
+C8 = LEDS_PER_RING / 8
+C16 = LEDS_PER_RING / 16
+C32 = LEDS_PER_RING / 32
+FTS = C8 - C32  # full triangle side
+HTS = FTS / 2
 
 # Ring crossings
 CROSSINGS = {
@@ -30,8 +33,12 @@ CROSSINGS = {
     (2, C2 + C4): (3, C4),
     (4, C4): (5, C2 + C4),
     (4, C2 + C4): (5, C4),
-    # (3, HTS): (4, -HTS % C),  # ground triangle
-    # (3, C2 + HTS): (4, C2 - HTS),  # sky triangle
+    # Each crossing then has two triangles next to it
+    # Each triangle has two crossings with another ring
+    (0, C4 - FTS): (5, HTS),
+    (1, C2 + C4 + FTS): (5, C - HTS),
+    (0, C4 + FTS): (4, HTS),
+    (1, C2 + C4 - FTS): (4, C - HTS),
 }
 CROSSINGS.update((v, k) for k, v in CROSSINGS.items())
 
@@ -57,8 +64,10 @@ class FrameConstants(object):
         self.c = C
         self.c2 = C2
         self.c4 = C4
-        self.c8 = self.fts = C8
-        self.c16 = self.hts = C16
+        self.c8 = C8
+        self.c16 = C16
+        self.fts = FTS
+        self.hts = HTS
         self.crossings = CROSSINGS.copy()
         self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
 
