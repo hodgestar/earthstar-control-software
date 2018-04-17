@@ -74,7 +74,7 @@ class FrameConstants(object):
 
     def colour(self, r, g, b, w=0):
         """ Return a colour numpy array. """
-        return np.array((w, r, g, b), dtype=self.frame_dtype)
+        return np.array((b, g, r, w), dtype=self.frame_dtype)
 
     def empty_ring(self):
         """ Return an numpy array for ring. """
