@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-""" Simple intensity adjustment for primary colours of all of the rings to produce pulses.
+""" Simple intensity adjustment for primary colours of all of the rings to
+    produce pulses.
 """
 
 import copy
-import math
 
 import numpy as np
 
@@ -33,12 +33,18 @@ class GradientPattern(Animation):
         self.intensity_down = range(250, -1, -(255 / self.fc.fps))
         self.off = [0] * len(self.intensity_up)
         self.ring_intensity = [
-            self.intensity_up + self.intensity_down + self.off + self.off + self.off + self.off,
-            self.off + self.intensity_up + self.intensity_down + self.off + self.off + self.off,
-            self.off + self.off + self.intensity_up + self.intensity_down + self.off + self.off,
-            self.off + self.off + self.off + self.intensity_up + self.intensity_down + self.off,
-            self.off + self.off + self.off + self.off + self.intensity_up + self.intensity_down,
-            self.intensity_down + self.off + self.off + self.off + self.off + self.intensity_up,
+            self.intensity_up + self.intensity_down + self.off + self.off
+            + self.off + self.off,
+            self.off + self.intensity_up + self.intensity_down + self.off
+            + self.off + self.off,
+            self.off + self.off + self.intensity_up + self.intensity_down
+            + self.off + self.off,
+            self.off + self.off + self.off + self.intensity_up
+            + self.intensity_down + self.off,
+            self.off + self.off + self.off + self.off + self.intensity_up
+            + self.intensity_down,
+            self.intensity_down + self.off + self.off + self.off + self.off
+            + self.intensity_up,
         ]
         self.step = 0
 

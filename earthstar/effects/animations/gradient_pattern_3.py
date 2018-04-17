@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-""" Simple intensity adjustment for primary colours of all of the rings to produce pulses.
+""" Simple intensity adjustment for primary colours of all of the rings to
+    produce pulses.
 """
-
-import copy
-import math
 
 import numpy as np
 
@@ -60,12 +58,19 @@ class GradientPattern(Animation):
             elif self.direction < 0 and self.max_point <= 1:
                 self.direction = 1
             gradient_up = self.max_intensity / self.max_point
-            gradient_down = -1 * (self.max_intensity / (self.width - self.max_point))
+            gradient_down = -1 * (
+                self.max_intensity / (self.width - self.max_point))
             for i in range(self.fc.leds_per_ring):
-                gradient = gradient_up if (i % self.width) < self.max_point else gradient_down
+                gradient = (
+                    gradient_up if (i % self.width) < self.max_point
+                    else gradient_down)
                 intensity[i] = intensity[i - 1] + gradient
-            self._rings[ring] = [i * self.colour_combos[ring][0] for i in intensity]
-            self._rings[ring] = np.roll(self._rings[ring], int(self.width / 3), axis=0)
-            self._rings[ring] = np.add(self._rings[ring], [i * self.colour_combos[ring][1] for i in intensity])
+            self._rings[ring] = [
+                i * self.colour_combos[ring][0] for i in intensity]
+            self._rings[ring] = np.roll(
+                self._rings[ring], int(self.width / 3), axis=0)
+            self._rings[ring] = np.add(
+                self._rings[ring], [
+                    i * self.colour_combos[ring][1] for i in intensity])
 
         frame[:] = self._rings

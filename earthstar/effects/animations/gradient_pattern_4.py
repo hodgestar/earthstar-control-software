@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-""" Simple intensity adjustment for primary colours of all of the rings to produce pulses.
+""" Simple intensity adjustment for primary colours of all of the rings to
+    produce pulses.
 """
 
 import math
@@ -53,15 +54,23 @@ class GradientPattern(Animation):
         """
         for ring in range(self.fc.n_rings):
             intensity = [0.0] * self.fc.leds_per_ring
-            self.max_point = int((self.width / 2) + ((self.width/2) - 1) * (math.sin(math.pi * self.position / (self.cycle_speed / 2))))
+            self.max_point = int((self.width / 2) + ((self.width/2) - 1) * (
+                math.sin(math.pi * self.position / (self.cycle_speed / 2))))
             gradient_up = self.max_intensity / self.max_point
-            gradient_down = -1 * (self.max_intensity / (self.width - self.max_point))
+            gradient_down = -1 * (self.max_intensity / (
+                self.width - self.max_point))
             for i in range(self.fc.leds_per_ring):
-                gradient = gradient_up if (i % self.width) < self.max_point else gradient_down
+                gradient = (
+                    gradient_up if (i % self.width) < self.max_point
+                    else gradient_down)
                 intensity[i] = intensity[i - 1] + gradient
-            self._rings[ring] = [i * self.colour_combos[ring][0] for i in intensity]
-            self._rings[ring] = np.roll(self._rings[ring], int(self.width / 2), axis=0)
-            self._rings[ring] = np.add(self._rings[ring], [i * self.colour_combos[ring][1] for i in intensity])
+            self._rings[ring] = [
+                i * self.colour_combos[ring][0] for i in intensity]
+            self._rings[ring] = np.roll(
+                self._rings[ring], int(self.width / 2), axis=0)
+            self._rings[ring] = np.add(
+                self._rings[ring], [
+                    i * self.colour_combos[ring][1] for i in intensity])
 
         self.position = (self.position + 1) % self.cycle_speed
         frame[:] = self._rings

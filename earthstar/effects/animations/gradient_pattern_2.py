@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-""" Simple intensity adjustment for primary colours of all of the rings to produce pulses.
+""" Simple intensity adjustment for primary colours of all of the rings to
+    produce pulses.
 """
 
-import copy
 import math
 
 import numpy as np
@@ -20,7 +20,13 @@ class GradientPattern(Animation):
     def ring_render(self, colour_1):
         lights = range(self.fc.leds_per_ring)
         max_brightness = 255
-        return  [int(((max_brightness / 2) * math.sin(math.pi * float(i) / (self.fc.leds_per_ring / 2))) + max_brightness / 2) * colour_1 for i in lights]
+        return [
+            int((
+                (max_brightness / 2)
+                * math.sin(math.pi * float(i) / (self.fc.leds_per_ring / 2))
+                ) + max_brightness / 2) * colour_1
+            for i in lights
+        ]
 
     def post_init(self):
         self._rings = np.array([
