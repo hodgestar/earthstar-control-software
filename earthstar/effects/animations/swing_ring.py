@@ -17,15 +17,19 @@ class Spinners(Animation):
     }
 
     def ring_render_1(self):
-        self.ring_len = int(float(self.fc.leds_per_ring) *
-                      abs(math.sin(math.pi * (float(self.ring_pos) / (self.fc.leds_per_ring / 2)))))
+        self.ring_len = int(
+            float(self.fc.leds_per_ring) * abs(
+                math.sin(math.pi * (float(self.ring_pos) / (
+                    self.fc.leds_per_ring / 2)))))
         ring_off = self.fc.leds_per_ring - self.ring_len
 
         return ([self.colour_1] * self.ring_len) + ([self.colour_2] * ring_off)
 
     def ring_render_2(self):
-        self.ring_len = int(float(self.fc.leds_per_ring / 2) *
-                      abs(math.sin(math.pi * (float(self.ring_pos) / (self.fc.leds_per_ring / 2)))))
+        self.ring_len = int(
+            float(self.fc.leds_per_ring / 2) * abs(
+                math.sin(math.pi * (float(self.ring_pos) / (
+                    self.fc.leds_per_ring / 2)))))
         ring_off = self.fc.leds_per_ring - self.ring_len
 
         return ([self.colour_1] * self.ring_len) + ([self.colour_2] * ring_off)
@@ -40,10 +44,9 @@ class Spinners(Animation):
         return self.animation_1(frame)
 
     def animation_1(self, frame):
-        """ A slowly spinning point that has a white bar that alternately fills the black space infront of it or behind
-        it according to a sinusoidal function
-        :param frame:
-        :return:
+        """ A slowly spinning point that has a white bar that alternately fills
+            the black space infront of it or behind it according to a
+            sinusoidal function.
         """
         self._rings = np.array([
             self.ring_render_1(),
@@ -55,7 +58,8 @@ class Spinners(Animation):
         ], dtype=np.uint8)
 
         for i in range(self.fc.n_rings):
-            self._rings[i] = np.roll(self._rings[i], int(-1 * (self.ring_pos / 2)), axis=0)
+            self._rings[i] = np.roll(
+                self._rings[i], int(-1 * (self.ring_pos / 2)), axis=0)
         frame[:] = self._rings
         self.ring_pos = (self.ring_pos + 2) % (self.fc.leds_per_ring * 2)
 
