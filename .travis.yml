@@ -3,6 +3,7 @@ dist: trusty
 python:
    - "2.7"
 install:
+   - sudo apt-get build-dep pygame
    - pip install -e .[simulator]
    - pip install -r requirements-dev.txt
 script:
