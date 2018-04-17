@@ -45,8 +45,6 @@ class PhaseSpinners2(Animation):
         :param frame:
         :return:
         """
-        print('speed: %s', self.point_speed)
-        print('position: %s', self.point_position)
         for i in range(self.fc.n_rings):
             if self.delay[i] <= 0:
                 if self.point_position[i] < 160:
