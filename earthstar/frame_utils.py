@@ -55,7 +55,7 @@ SIMULATOR_VIRTUAL_TO_PHYSICAL = [
 
 class FrameConstants(object):
     """ Holder for frame constants. """
-    def __init__(self):
+    def __init__(self, fps=10):
         self.n_rings = N_RINGS
         self.leds_per_ring = LEDS_PER_RING
         self.frame_shape = FRAME_SHAPE
@@ -70,10 +70,11 @@ class FrameConstants(object):
         self.hts = HTS
         self.crossings = CROSSINGS.copy()
         self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
+        self.fps = fps
 
     def colour(self, r, g, b, w=0):
         """ Return a colour numpy array. """
-        return np.array((w, r, g, b), dtype=self.frame_dtype)
+        return np.array((b, g, r, w), dtype=self.frame_dtype)
 
     def empty_ring(self):
         """ Return an numpy array for ring. """
