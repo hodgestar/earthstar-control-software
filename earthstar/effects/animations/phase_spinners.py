@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-""" A set of bars that spin in and out of phase with one-another and combine for brightness.
+""" A set of bars that spin in and out of phase with one-another and combine
+    for brightness.
 """
 
 import copy
-import math
 
 import numpy as np
 
@@ -44,6 +44,7 @@ class PhaseSpinners(Animation):
         for i in range(self.fc.n_rings):
             self._rings[i] = np.roll(self._rings[i], self.speed[i], axis=0)
         rings = copy.deepcopy(self._rings)
-        rings[0] = rings[1] = rings[2] = rings[3] = rings[4] = rings[5] = rings[0] + rings[1] + rings[2] + rings[3] + rings[4] + rings[5]
+        rings[0] = rings[1] = rings[2] = rings[3] = rings[4] = rings[5] = (
+            rings[0] + rings[1] + rings[2] + rings[3] + rings[4] + rings[5])
         rings = rings ** 1.5
         frame[:] = rings
