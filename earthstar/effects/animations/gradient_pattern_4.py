@@ -16,7 +16,7 @@ class GradientPattern(Animation):
     ANIMATION = __name__
     ARGS = {
     }
-    WIDTH = [15, 25, 30, 45, 50, 75, 150]
+    WIDTH = [15.0, 25.0, 30.0, 45.0, 50.0, 75.0, 150.0]
 
     def ring_render(self, colour_1):
         return [colour_1] * self.fc.leds_per_ring
@@ -30,9 +30,8 @@ class GradientPattern(Animation):
             self.ring_render(self.fc.colour(0, 1, 1)),
             self.ring_render(self.fc.colour(1, 0, 1)),
         ], dtype=np.uint8)
-        self.width = 75.0
+        self.width = self.WIDTH[random.randint(0, len(self.WIDTH) - 1)]
         self.max_intensity = 255.0
-        self.max_point = 40.0
         self.colour_combos = [
             [self.fc.colour(1, 0, 0), self.fc.colour(0, 1, 0)],
             [self.fc.colour(1, 0, 0), self.fc.colour(0, 0, 1)],
