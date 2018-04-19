@@ -21,6 +21,7 @@ Todo
 ----
 
 * Add all ring joins.
+* Binary clock animation.
 * Select final animations.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
