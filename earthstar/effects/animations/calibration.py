@@ -5,6 +5,8 @@
     Displays points at ring intersections.
 """
 
+import numpy as np
+
 from ..engine import Animation
 
 
@@ -14,39 +16,32 @@ class Calibration(Animation):
     ARGS = {
     }
 
-    COLOURS = [
-        (255, 0, 0),
-        (0, 255, 0),
-        (0, 0, 255),
-        (255, 100, 100),
-        (100, 255, 100),
-        (100, 100, 255),
+    RING_COLOURS = [
+        (255, 0, 0),  # red (0)
+        (0, 255, 0),  # green (1)
+        (0, 0, 255),  # blue (2)
+        (255, 255, 0),  # yellow (3)
+        (0, 255, 255),  # turquoise (4)
+        (255, 0, 255),  # purple (5)
     ]
 
     def post_init(self):
-        self._white = self.fc.colour(255, 255, 255)
-        self._colours = [self.fc.colour(*c) for c in self.COLOURS]
-        self._crossings = {r: [] for r in range(self.fc.n_rings)}
-        for src, dst in self.fc.crossings.items():
-            self._crossings[src[0]].append((src, dst))
-        self._tick = 0
-        self._ring = 0
+        ring_colours = [self.fc.colour(*c) for c in self.RING_COLOURS]
+        white = self.fc.colour(255, 255, 255)
+        grey = self.fc.colour(150, 150, 150)
+
+        self._frame = self.fc.empty_frame()
+        for r in range(self.fc.n_rings):
+            colour = ring_colours[r]
+            ring = self._frame[r]
+            # crossing point markers
+            for p in self.fc.crossing_points[r]:
+                ring[p: p + 5] = [colour] * 5
+            r_bin = "{0:03b}".format(r)
+            # binary numbering
+            for i in range(3):
+                ring[(i * 2 + 2) * 5:(i * 2 + 3) * 5] = [
+                    (white if r_bin[2 - i] == "1" else grey)] * 5
 
     def render(self, frame):
-        self._tick += 1
-        if self._tick >= 20:
-            self._tick = 0
-            self._ring = (self._ring + 1) % self.fc.n_rings
-        colour = self._colours[self._ring]
-        for src, dst in self._crossings[self._ring]:
-            src_ring, src_pos = src
-            dst_ring, dst_pos = dst
-            for pos in range(src_pos, src_pos + 5):
-                pos = pos % self.fc.leds_per_ring
-                frame[(src_ring, pos)] = colour
-            for pos in range(dst_pos, dst_pos + 5):
-                pos = pos % self.fc.leds_per_ring
-                frame[(dst_ring, pos)] = colour
-            for pos in range(dst_pos + 5, dst_pos + 10):
-                pos = pos % self.fc.leds_per_ring
-                frame[(dst_ring, pos)] = self._white
+        frame[:] = self._frame
