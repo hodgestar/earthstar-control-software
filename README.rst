@@ -21,7 +21,6 @@ Todo
 ----
 
 * Add all ring joins.
-* Add tests for animations.
 * Select final animations.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
@@ -29,6 +28,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Add tests for animations.
 * Fixed out-by-one error in segment endpoints when rendering worms.
 * Added support for white LEDs in effectbox and simulator doesn't
   break in the presence of the white LEDs.
