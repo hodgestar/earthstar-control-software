@@ -102,3 +102,6 @@ ENV/
 
 # rpi_ws281x driver checkout
 led_driver/rpi_ws281x/
+
+# pytest cache
+.pytest_cache/
