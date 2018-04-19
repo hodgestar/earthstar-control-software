@@ -5,8 +5,6 @@
     Displays points at ring intersections.
 """
 
-import numpy as np
-
 from ..engine import Animation
 
 
