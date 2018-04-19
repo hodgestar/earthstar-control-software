@@ -29,6 +29,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Fixed ordering of colour in simulator.
 * Add tests for animations.
 * Fixed out-by-one error in segment endpoints when rendering worms.
 * Added support for white LEDs in effectbox and simulator doesn't
