@@ -21,6 +21,8 @@ Todo
 ----
 
 * Add all ring joins.
+* Add tests for animations.
+* Select final animations.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
 
