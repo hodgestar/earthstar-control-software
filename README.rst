@@ -25,6 +25,7 @@ Todo
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
 
+
 Implemented ideas
 -----------------
 
