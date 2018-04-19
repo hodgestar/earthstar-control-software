@@ -31,6 +31,7 @@ ANIMATIONS = find_animations()
 
 
 @pytest.mark.parametrize("animation_cls", ANIMATIONS)
+@pytest.mark.timeout(2.5)  # at least 40 frames per second
 def test_generates_one_hundred_frames(animation_cls):
     """ Tests that each animation can generate one hundred
         frames correctly in a reasonable amount of time.
