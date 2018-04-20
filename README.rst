@@ -20,8 +20,9 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Add all ring joins.
 * Option to switch between physical and virtual earthstar settings.
+* Fix bug where worms don't cross at zero (probably they are skipping zero).
+* And different kinds of worms.
 * Binary clock animation.
 * Select final animations.
 * Add post effect capping of colour values.
@@ -31,6 +32,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Add all ring joins.
 * Fixed ordering of colour in simulator.
 * Add tests for animations.
 * Fixed out-by-one error in segment endpoints when rendering worms.
