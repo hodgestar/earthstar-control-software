@@ -29,6 +29,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Make worms ambi-turners.
 * And different kinds of worms.
 * Add support for reasonable random color generation.
 * Option to switch between physical and virtual earthstar settings.

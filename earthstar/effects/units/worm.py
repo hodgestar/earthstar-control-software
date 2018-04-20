@@ -11,12 +11,20 @@ class Worm(Unit):
 
         A worm has a length and a speed. Speed should always be positive.
         Use a negative length to have a worm head in the opposite direction.
+
+        :param list turns:
+            List of 1, 0, or -1 values specifying the sequence of turns
+            a worm should take. 1 indicates turn onto the positive ring
+            direction. -1 indicates turn onto the negative ring direction.
+            0 indicates not to turn.
     """
-    def __init__(self, fc, ring, start, length, speed, colour):
+    def __init__(self, fc, ring, start, length, speed, colour, turns=None):
         self.fc = fc
         self.speed = speed
         self.colour = colour
         self.segments = []  # list of (ring, start, end)
+        self._turns = turns if turns is not None else [1, -1]
+        self._turn_pos = 0
         pos = start
         while length != 0:
             end = pos - length
@@ -30,6 +38,17 @@ class Worm(Unit):
             elif end == self.fc.c - 1:
                 pos = 0
 
+    def _do_turn(self, f_ring, f_start):
+        direction = self._turns[self._turn_pos]
+        self._turn_pos = (self._turn_pos + 1) % len(self._turns)
+        c_ring, c_start = self.fc.crossings[(f_ring, f_start)]
+        if direction == 1:
+            self.segments.insert(0, (c_ring, c_start + 1, c_start))
+        elif direction == -1:
+            self.segments.insert(0, (c_ring, c_start, c_start + 1))
+        else:
+            pass  # don't start a new segment for places we don't turn
+
     def step(self):
         for _ in range(self.speed):
             f_ring, f_start, f_end = self.segments[0]
@@ -37,8 +56,7 @@ class Worm(Unit):
             n_start = f_start + f_direction
             if n_start >= self.fc.c:
                 if (f_ring, 0) in self.fc.crossings:
-                    c_ring, c_start = self.fc.crossings[(f_ring, 0)]
-                    self.segments.insert(0, (c_ring, c_start + 1, c_start))
+                    self._do_turn(f_ring, 0)
                 else:
                     self.segments.insert(0, (f_ring, 1, 0))
                 self.segments[1] = (f_ring, self.fc.c - 1, f_end)
@@ -50,8 +68,7 @@ class Worm(Unit):
             else:
                 self.segments[0] = (f_ring, n_start, f_end)
                 if (f_ring, n_start) in self.fc.crossings:
-                    c_ring, c_start = self.fc.crossings[(f_ring, n_start)]
-                    self.segments.insert(0, (c_ring, c_start, c_start))
+                    self._do_turn(f_ring, n_start)
 
             l_ring, l_start, l_end = self.segments[-1]
             l_direction = (-1, 1)[l_start >= l_end]
