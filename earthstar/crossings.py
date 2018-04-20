@@ -19,6 +19,7 @@ def generate_crossings(points, n_rings):
             (r2, l2) -> (r1, l1) too.
     """
     assert n_rings == 6, "Crossings only supported for 6 rings."
+    n_ring_crossings = 10  # only valid for n_rings == 6
     r, g, b, y, c, m = range(6)  # rings named by colour, in order
     d = {}
     # sequences
@@ -30,20 +31,34 @@ def generate_crossings(points, n_rings):
         [(y, 0), (r, 8), (m, 4), (c, 6), (g, 8),
          (y, 5), (r, 3), (m, 9), (c, 1), (g, 3)],  # ring 2 (blue, C)
         [(b, 0), (g, 2), (m, 1), (c, 9), (r, 2),
-         (b, 5), (g, 7), (m, 6), (c, 4), (r, 6)],  # ring 3 (yellow)
-        [(m, 0), (b, 8), (g, 4), (r, 6), (y, 9),
-         (m, 5), (b, 3), (g, 9), (r, 1), (y, 4)],  # ring 4 (cyan / turquoise)
+         (b, 5), (g, 7), (m, 6), (c, 4), (r, 7)],  # ring 3 (yellow, D)
+        [(m, 0), (b, 8), (g, 4), (r, 6), (y, 8),
+         (m, 5), (b, 3), (g, 9), (r, 1), (y, 3)],  # ring 4 (cyan, E)
         [(c, 0), (y, 2), (g, 1), (r, 9), (b, 2),
-         (c, 5), (y, 7), (g, 6), (r, 4), (b, 7)],  # ring 5 (magenta / purple)
+         (c, 5), (y, 7), (g, 6), (r, 4), (b, 7)],  # ring 5 (magenta, F)
     ]
+    # check sequencing inverses are correct
+    for i, crossings in enumerate(sequences):
+        for p_i, other in enumerate(crossings):
+            j, p_j = other
+            assert sequences[j][p_j] == (i, p_i), (
+                "({}, {}) =!= ({}, {})".format(i, p_i, j, p_j))
+    # check all crossings present
+    points_used = [[None] * n_ring_crossings for _ in range(n_rings)]
+    for i, crossings in enumerate(sequences):
+        for p_i, other in enumerate(crossings):
+            j, p_j = other
+            points_used[j][p_j] = p_j
+    expected_points_used = [
+        list(range(n_ring_crossings)) for _ in range(n_rings)
+    ]
+    assert points_used == expected_points_used, (
+        "Expected all crossings to be used")
     # crossing points
     for i, crossings in enumerate(sequences):
         for p_i, other in enumerate(crossings):
-            # TODO: add crossing checks
             j, p_j = other
             d[(i, points[i][p_i])] = (j, points[j][p_j])
-    # add inverse crossings
-    d.update((v, k) for k, v in d.items())
     return d
 
 
