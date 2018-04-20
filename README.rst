@@ -21,7 +21,6 @@ Todo
 ----
 
 * Select final animations.
-* Make candy stripes wider.
 * Specify multiple animations with commas.
 * Binary clock animation.
 * Add post effect capping of colour values.
@@ -31,6 +30,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Make candy stripes wider.
 * Full sphere pulse.
 * Make worms ambi-turners.
 * And different kinds of worms.

@@ -5,6 +5,7 @@
 
 import numpy as np
 
+from ...colours import SIX_PRIMARY_COLOURS
 from ..engine import Animation
 
 
@@ -23,15 +24,16 @@ class CandyStripes(Animation):
         return (pair * repeats)[:self.fc.leds_per_ring]
 
     def post_init(self):
-        self.stripe_width = 4
+        self.stripe_width = 15
+        colours = SIX_PRIMARY_COLOURS
         self._stripes = np.array([
-            self.ring_colours([0, 255, 0], [0, 0, 255]),
-            self.ring_colours([128, 255, 0], [128, 0, 255]),
-            self.ring_colours([255, 0, 0], [0, 0, 255]),
-            self.ring_colours([255, 128, 0], [0, 128, 255]),
-            self.ring_colours([255, 0, 0], [0, 255, 0]),
-            self.ring_colours([255, 0, 128], [0, 255, 128]),
-        ], dtype=np.uint8)
+            self.ring_colours(colours[0], colours[1]),
+            self.ring_colours(colours[2], colours[3]),
+            self.ring_colours(colours[4], colours[5]),
+            self.ring_colours(colours[0], colours[3]),
+            self.ring_colours(colours[2], colours[5]),
+            self.ring_colours(colours[4], colours[1]),
+        ], dtype=self.fc.frame_dtype)
 
     def render(self, frame):
         for i in range(self.fc.n_rings):
