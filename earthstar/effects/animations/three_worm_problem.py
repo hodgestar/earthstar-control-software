@@ -1,30 +1,31 @@
 # -*- coding: utf-8 -*-
 
-""" Visualizing the earthstar as two sets of three rings.
-
-    One set of three crosses in a triangle at bottom and the top (the ground
-    and sky rings). The other set crosses in a triangle on the sides (the
-    equatorial rings).
+""" Three bright worms that womble across the earthstar.
 """
 
 from ..engine import Animation
 from ..units.worm import Worm
 
 
-class LotsOfWorms(Animation):
+class ThreeWormProblem(Animation):
 
     ANIMATION = __name__
     ARGS = {
     }
 
     def post_init(self):
+        colours = [
+            (255, 0, 0),
+            (0, 255, 0),
+            (0, 0, 255),
+        ]
         self.worms = [
             Worm(self.fc, ring=1, start=0, speed=5, length=100,
-                 colour=self.fc.colour(255, 0, 0)),
+                 colour=self.fc.colour(*colours[0])),
             Worm(self.fc, ring=3, start=0, speed=5, length=100,
-                 colour=self.fc.colour(255, 0, 255)),
+                 colour=self.fc.colour(*colours[1])),
             Worm(self.fc, ring=5, start=0, speed=5, length=100,
-                 colour=self.fc.colour(0, 0, 255)),
+                 colour=self.fc.colour(*colours[2])),
         ]
 
     def render(self, frame):

@@ -5,16 +5,20 @@
 from ..engine import Animation
 from .candy_stripes import CandyStripes
 from .lots_of_dots import LotsOfDots
-from .lots_of_worms import LotsOfWorms
+from .random_worms import RandomWorms
 from .ring_primary_colour import RingPrimaryColour
+from .six_worm_problem import SixWormProblem
 from .sparkles import Sparkles
+from .three_worm_problem import ThreeWormProblem
 
 DEFAULT_ANIMATIONS = [
     CandyStripes,
     LotsOfDots,
-    LotsOfWorms,
+    RandomWorms,
     RingPrimaryColour,
+    SixWormProblem,
     Sparkles,
+    ThreeWormProblem,
 ]
 
 
