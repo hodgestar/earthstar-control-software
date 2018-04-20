@@ -69,6 +69,31 @@ Effect ideas
 * Flames from direction.
 
 
+Calibration
+-----------
+
+1. Set things up, fire up the calibration animation which colours the rings red, green, blue,
+   yellow, cyan and magenta, and labels them with a binary grey-white pattern from 0 to 6. It
+   also marks the crossing points on each ring.
+
+   $ earthstar-effectbox --transition 1000 --animation calibration
+
+2. Re-order the rings so that they're paired up:
+
+   * (red, green), i.e. (0, 1)
+   * (blue, yellow), i.e. (2, 3)
+   * (cyan, magenta), i.e. (4, 5)
+
+3. Rotate the ring offsets so that each pair meets at their 0s.
+
+4. Apply manual fiddling to crossing points if needed to get them in the right spots. They
+   should be roughly good at the start. Fiddling is just adjusting the points on individual
+   rings backwards and forwards some LEDs. Actual crossing mappings should already be taken
+   care of.
+
+5. Done!
+
+
 Quickstart
 ----------
 
