@@ -57,7 +57,8 @@ def main(fps, etype, transition, animation, effect_addr, frame_addr):
     engine = EffectEngine(fc=fc, tick=tick, transition=transition)
     engine.add_default_command_types()
     if animation:
-        engine.add_animation_type(import_animation(animation))
+        for name in animation.split(','):
+            engine.add_animation_type(import_animation(name))
     else:
         engine.add_default_animation_types()
 

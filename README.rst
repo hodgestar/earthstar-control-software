@@ -21,7 +21,6 @@ Todo
 ----
 
 * Select final animations.
-* Specify multiple animations with commas.
 * Binary clock animation.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
@@ -30,6 +29,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Specify multiple animations with commas.
 * Make candy stripes wider.
 * Full sphere pulse.
 * Make worms ambi-turners.
