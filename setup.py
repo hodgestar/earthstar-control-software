@@ -14,6 +14,7 @@ setup(
     install_requires=[
         'click',
         'numpy',
+        'randomcolor',
         'zmq',
     ],
     extras_require={
