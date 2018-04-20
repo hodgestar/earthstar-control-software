@@ -20,8 +20,9 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Binary clock animation.
+* Full sphere pulse.
 * Select final animations.
+* Binary clock animation.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
 
@@ -67,7 +68,6 @@ Discarded ideas
 Effect ideas
 ------------
 
-* Full sphere pulse.
 * Flames from direction.
 
 
