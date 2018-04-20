@@ -20,8 +20,9 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Full sphere pulse.
 * Select final animations.
+* Make candy stripes wider.
+* Specify multiple animations with commas.
 * Binary clock animation.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
@@ -30,6 +31,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Full sphere pulse.
 * Make worms ambi-turners.
 * And different kinds of worms.
 * Add support for reasonable random color generation.

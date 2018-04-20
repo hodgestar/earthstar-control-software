@@ -4,6 +4,7 @@
 
 from ..engine import Animation
 from .candy_stripes import CandyStripes
+from .full_pulse import FullPulse
 from .lots_of_dots import LotsOfDots
 from .random_worms import RandomWorms
 from .ring_primary_colour import RingPrimaryColour
@@ -13,6 +14,7 @@ from .three_worm_problem import ThreeWormProblem
 
 DEFAULT_ANIMATIONS = [
     CandyStripes,
+    FullPulse,
     LotsOfDots,
     RandomWorms,
     RingPrimaryColour,
