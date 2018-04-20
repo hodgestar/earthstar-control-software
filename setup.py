@@ -12,14 +12,13 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'flask',
-        'flask_bootstrap',
         'click',
         'numpy',
         'zmq',
     ],
     extras_require={
         'simulator': ['faulthandler', 'pygame_cffi', 'PyOpenGL'],
+        'api': ['flask', 'flask_boostrap'],
     },
     entry_points={  # Optional
         'console_scripts': [
