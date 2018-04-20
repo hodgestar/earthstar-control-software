@@ -20,7 +20,6 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* And different kinds of worms.
 * Binary clock animation.
 * Select final animations.
 * Add post effect capping of colour values.
@@ -30,6 +29,8 @@ Todo
 Implemented ideas
 -----------------
 
+* And different kinds of worms.
+* Add support for reasonable random color generation.
 * Option to switch between physical and virtual earthstar settings.
 * Fix bug where worms don't cross at zero (probably they are skipping zero).
 * Add all ring joins.
