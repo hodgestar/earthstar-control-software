@@ -3,6 +3,7 @@
 """ Six bright worms that womble across the earthstar.
 """
 
+from ...colours import SIX_PRIMARY_COLOURS
 from ..engine import Animation
 from ..units.worm import Worm
 
@@ -14,18 +15,10 @@ class SixWormProblem(Animation):
     }
 
     def post_init(self):
-        colours = [
-            (255, 0, 255),
-            (255, 0, 0),
-            (255, 255, 0),
-            (0, 255, 0),
-            (0, 255, 255),
-            (0, 0, 255),
-        ]
         self.worms = [
             Worm(self.fc, ring=r, start=0, speed=5, length=100,
                  colour=self.fc.colour(*c))
-            for r, c in enumerate(colours)
+            for r, c in enumerate(SIX_PRIMARY_COLOURS)
         ]
 
     def render(self, frame):
