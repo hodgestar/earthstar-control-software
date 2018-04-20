@@ -26,6 +26,23 @@ GOOD_HUES = [
 ]
 
 
+THREE_PRIMARY_COLOURS = [
+    (255, 0, 0),
+    (0, 255, 0),
+    (0, 0, 255),
+]
+
+
+SIX_PRIMARY_COLOURS = [
+    (255, 0, 255),
+    (255, 0, 0),
+    (255, 255, 0),
+    (0, 255, 0),
+    (0, 255, 255),
+    (0, 0, 255),
+]
+
+
 def random_good_hues():
     """ Return a random set of good hues. """
     return random.choice(GOOD_HUES)
