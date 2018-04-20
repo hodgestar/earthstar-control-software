@@ -7,6 +7,8 @@
 
 import numpy as np
 
+from .crossings import generate_crossings, generate_base_crossing_points
+
 # Fundamental constants of the ring universe
 N_RINGS = 6
 LEDS_PER_RING = 450
@@ -20,60 +22,27 @@ C2 = LEDS_PER_RING / 2
 C4 = LEDS_PER_RING / 4
 C6 = LEDS_PER_RING / 6
 C8 = LEDS_PER_RING / 8
-C16 = LEDS_PER_RING / 16
-C32 = LEDS_PER_RING / 32
-FTS = C8 - C32  # full triangle side
-HTS = FTS / 2
-
-
-# crossing generator
-def generate_crossings(points):
-    """ Generate a rings crossing dictionary from crossings points. """
-    d = {}
-    # sequences
-    sequences = [
-        [(1, 0), (4, 7), (3, 4), (2, 6), (5, 7),
-         (1, 5), (4, None), (2, None), (3, None), (5, 3)],  # ring 0
-        [(0, 0), (5, 2), None, None, None,
-         (0, 5), None, None, None, (4, 6)],  # ring 1
-        [(3, 0), None, None, None, None,
-         (3, 5), None, None, None, None],  # ring 2
-        [(2, 0), None, None, None, None,
-         (2, 5), None, None, None, None],  # ring 3
-        [(5, 0), None, None, None, None,
-         (5, 5), None, None, None, None],  # ring 4
-        [(4, 0), None, None, None, None,
-         (4, 5), None, None, None, None],  # ring 5
-    ]
-    # crossing points
-    for i, crossings in enumerate(sequences):
-        for p_i, other in enumerate(crossings):
-            if not isinstance(other, tuple):
-                continue
-            j, p_j = other
-            if p_j is None:
-                continue
-            d[(i, points[i][p_i])] = (j, points[j][p_j])
-    # add inverse crossings
-    d.update((v, k) for k, v in d.items())
-    return d
-
 
 # Simulator crossings points
-SS = C6 / 2  # short side
-SL = C6 / 2 + C32  # long side
-SSL = SS + SL  # short side plus long side
-SIM_RING = [
-    0, SS, SSL, C2 - SSL, C2 - SS,
-    C2, C2 + SS, C2 + SSL, C - SSL, C - SS,
-]
-SIMULATOR_CROSSING_POINTS = [SIM_RING[:] for _ in range(N_RINGS)]
-
-# Simulator crossing
-SIMULATOR_CROSSINGS = generate_crossings(SIMULATOR_CROSSING_POINTS)
+SIMULATOR_CROSSING_POINTS = generate_base_crossing_points(C, N_RINGS)
+SIMULATOR_CROSSINGS = generate_crossings(SIMULATOR_CROSSING_POINTS, N_RINGS)
 
 # Simulator virtual to physical mappings
 SIMULATOR_VIRTUAL_TO_PHYSICAL = [
+    (0, C4, False),  # virtual ring, offset in LEDs, flip (True or False)
+    (1, -C4, False),
+    (2, C4, False),
+    (3, -C4, False),
+    (4, C4, False),
+    (5, -C4, False),
+]
+
+# Real earthstar crossings points
+ES_CROSSING_POINTS = generate_base_crossing_points(C, N_RINGS)
+ES_CROSSINGS = generate_crossings(ES_CROSSING_POINTS, N_RINGS)
+
+# Real earthstar virtual to physical mappings
+ES_VIRTUAL_TO_PHYSICAL = [
     (0, C4, False),  # virtual ring, offset in LEDs, flip (True or False)
     (1, -C4, False),
     (2, C4, False),
@@ -95,9 +64,6 @@ class FrameConstants(object):
         self.c2 = C2
         self.c4 = C4
         self.c8 = C8
-        self.c16 = C16
-        self.fts = FTS
-        self.hts = HTS
         self.crossing_points = SIMULATOR_CROSSING_POINTS[:]
         self.crossings = SIMULATOR_CROSSINGS.copy()
         self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]

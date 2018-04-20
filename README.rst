@@ -21,6 +21,7 @@ Todo
 ----
 
 * Add all ring joins.
+* Option to switch between physical and virtual earthstar settings.
 * Binary clock animation.
 * Select final animations.
 * Add post effect capping of colour values.
