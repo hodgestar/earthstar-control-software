@@ -29,6 +29,9 @@ from .frame_utils import FrameConstants
     '--fps', default=10,
     help='Frames per second.')
 @click.option(
+    '--etype', default="earthstar",
+    type=click.Choice(["earthstar", "simulator"]))
+@click.option(
     '--transition', default=60,
     help='Time between animation transitions.')
 @click.option(
@@ -40,7 +43,7 @@ from .frame_utils import FrameConstants
 @click.option(
     '--frame-addr', default='tcp://127.0.0.1:5556',
     help='ZeroMQ address to publish frames too.')
-def main(fps, transition, animation, effect_addr, frame_addr):
+def main(fps, etype, transition, animation, effect_addr, frame_addr):
     click.echo("Earthstar effectbox running.")
     tick = 1. / fps
     context = zmq.Context()
@@ -50,7 +53,7 @@ def main(fps, transition, animation, effect_addr, frame_addr):
     effect_socket.connect(effect_addr)
     effect_socket.setsockopt_string(zmq.SUBSCRIBE, u"")  # receive everything
 
-    fc = FrameConstants()
+    fc = FrameConstants(fps=fps, etype=etype)
     engine = EffectEngine(fc=fc, tick=tick, transition=transition)
     engine.add_default_command_types()
     if animation:

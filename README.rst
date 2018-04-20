@@ -20,7 +20,6 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Option to switch between physical and virtual earthstar settings.
 * And different kinds of worms.
 * Binary clock animation.
 * Select final animations.
@@ -31,6 +30,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Option to switch between physical and virtual earthstar settings.
 * Fix bug where worms don't cross at zero (probably they are skipping zero).
 * Add all ring joins.
 * Fixed ordering of colour in simulator.

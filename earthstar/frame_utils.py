@@ -53,8 +53,16 @@ ES_VIRTUAL_TO_PHYSICAL = [
 
 
 class FrameConstants(object):
-    """ Holder for frame constants. """
-    def __init__(self, fps=10):
+    """ Holder for frame constants.
+
+        :param int fps:
+            Frames per second.
+        :param str etype:
+            Either "simulator" if drawing to the simulator or
+            "earthstar" if drawing to the real earthstar.
+    """
+
+    def __init__(self, fps=10, etype="simulator"):
         self.n_rings = N_RINGS
         self.leds_per_ring = LEDS_PER_RING
         self.frame_shape = FRAME_SHAPE
@@ -64,10 +72,18 @@ class FrameConstants(object):
         self.c2 = C2
         self.c4 = C4
         self.c8 = C8
-        self.crossing_points = SIMULATOR_CROSSING_POINTS[:]
-        self.crossings = SIMULATOR_CROSSINGS.copy()
-        self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
         self.fps = fps
+        if etype == "simulator":
+            self.crossing_points = SIMULATOR_CROSSING_POINTS[:]
+            self.crossings = SIMULATOR_CROSSINGS.copy()
+            self._virtual_to_physical = SIMULATOR_VIRTUAL_TO_PHYSICAL[:]
+        elif etype == "earthstar":
+            self.crossing_points = ES_CROSSING_POINTS[:]
+            self.crossings = ES_CROSSINGS.copy()
+            self._virtual_to_physical = ES_VIRTUAL_TO_PHYSICAL[:]
+        else:
+            assert etype in ("simulator", "earthstar"), (
+                "etype must be one of 'simulator' or 'earthstar'")
 
     def colour(self, r, g, b, w=0):
         """ Return a colour numpy array. """
