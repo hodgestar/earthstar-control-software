@@ -19,30 +19,28 @@ def generate_crossings(points, n_rings):
             (r2, l2) -> (r1, l1) too.
     """
     assert n_rings == 6, "Crossings only supported for 6 rings."
+    r, g, b, y, c, m = range(6)  # rings named by colour, in order
     d = {}
     # sequences
     sequences = [
-        [(1, 0), (4, 7), (3, 4), (2, 6), (5, 7),
-         (1, 5), (4, None), (2, None), (3, None), (5, 3)],  # ring 0
-        [(0, 0), (5, 2), None, None, None,
-         (0, 5), None, None, None, (4, 6)],  # ring 1
-        [(3, 0), None, None, None, None,
-         (3, 5), None, None, None, None],  # ring 2
-        [(2, 0), None, None, None, None,
-         (2, 5), None, None, None, None],  # ring 3
-        [(5, 0), None, None, None, None,
-         (5, 5), None, None, None, None],  # ring 4
-        [(4, 0), None, None, None, None,
-         (4, 5), None, None, None, None],  # ring 5
+        [(g, 0), (c, 8), (y, 4), (b, 6), (m, 8),
+         (g, 5), (c, 3), (y, 9), (b, 1), (m, 3)],  # ring 0 (red, A)
+        [(r, 0), (m, 2), (y, 1), (b, 9), (c, 2),
+         (r, 5), (m, 7), (y, 6), (b, 4), (c, 7)],  # ring 1 (green, B)
+        [(y, 0), (r, 8), (m, 4), (c, 6), (g, 8),
+         (y, 5), (r, 3), (m, 9), (c, 1), (g, 3)],  # ring 2 (blue, C)
+        [(b, 0), (g, 2), (m, 1), (c, 9), (r, 2),
+         (b, 5), (g, 7), (m, 6), (c, 4), (r, 6)],  # ring 3 (yellow)
+        [(m, 0), (b, 8), (g, 4), (r, 6), (y, 9),
+         (m, 5), (b, 3), (g, 9), (r, 1), (y, 4)],  # ring 4 (cyan / turquoise)
+        [(c, 0), (y, 2), (g, 1), (r, 9), (b, 2),
+         (c, 5), (y, 7), (g, 6), (r, 4), (b, 7)],  # ring 5 (magenta / purple)
     ]
     # crossing points
     for i, crossings in enumerate(sequences):
         for p_i, other in enumerate(crossings):
-            if not isinstance(other, tuple):
-                continue
+            # TODO: add crossing checks
             j, p_j = other
-            if p_j is None:
-                continue
             d[(i, points[i][p_i])] = (j, points[j][p_j])
     # add inverse crossings
     d.update((v, k) for k, v in d.items())
