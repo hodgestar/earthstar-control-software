@@ -36,9 +36,15 @@ class Worm(Unit):
             f_direction = (-1, 1)[f_start >= f_end]
             n_start = f_start + f_direction
             if n_start >= self.fc.c:
-                self.segments.insert(0, (f_ring, 1, 0))
+                if (f_ring, 0) in self.fc.crossings:
+                    c_ring, c_start = self.fc.crossings[(f_ring, 0)]
+                    self.segments.insert(0, (c_ring, c_start + 1, c_start))
+                else:
+                    self.segments.insert(0, (f_ring, 1, 0))
                 self.segments[1] = (f_ring, self.fc.c - 1, f_end)
             elif n_start <= -1:
+                # there can't be a crossing at n_start == self.fc.c, so no need
+                # to check
                 self.segments.insert(0, (f_ring, self.fc.c - 2, self.fc.c - 1))
                 self.segments[1] = (f_ring, 0, f_end)
             else:

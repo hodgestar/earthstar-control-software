@@ -21,7 +21,6 @@ Todo
 ----
 
 * Option to switch between physical and virtual earthstar settings.
-* Fix bug where worms don't cross at zero (probably they are skipping zero).
 * And different kinds of worms.
 * Binary clock animation.
 * Select final animations.
@@ -32,6 +31,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Fix bug where worms don't cross at zero (probably they are skipping zero).
 * Add all ring joins.
 * Fixed ordering of colour in simulator.
 * Add tests for animations.
