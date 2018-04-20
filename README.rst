@@ -29,6 +29,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Script for launching on start up.
 * Specify multiple animations with commas.
 * Make candy stripes wider.
 * Full sphere pulse.

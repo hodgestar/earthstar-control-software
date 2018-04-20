@@ -1,0 +1,3 @@
+# Earthstar
+/home/pi/earthstar-control-software/pi/effectbox.sh &
+/home/pi/earthstar-control-software/pi/led_driver.sh &
