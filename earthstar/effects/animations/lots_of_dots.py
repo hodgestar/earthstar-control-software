@@ -35,7 +35,7 @@ class LotsOfDots(Animation):
         dots = random.randint(5, 20)
         angle = random.uniform(0, 2 * math.pi)
         rotation_speed = random.randint(0, 5)
-        spread = random.randint(1, self.fc.leds_per_ring / dots)
+        spread = random.randint(15, self.fc.leds_per_ring / dots)
         colour = random.choice(self._colours)
         return Spindots(
             self.fc, ring, angle, colour, dots, rotation_speed, spread)

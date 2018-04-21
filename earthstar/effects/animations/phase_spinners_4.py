@@ -11,7 +11,7 @@ import numpy as np
 from ..engine import Animation
 
 
-class PhaseSpinners2(Animation):
+class PhaseSpinners4(Animation):
 
     ANIMATION = __name__
     ARGS = {

@@ -10,7 +10,7 @@ import numpy as np
 from ..engine import Animation
 
 
-class PhaseSpinners2(Animation):
+class PhaseSpinners3(Animation):
 
     ANIMATION = __name__
     ARGS = {

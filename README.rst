@@ -20,7 +20,6 @@ The pieces communicate using ZeroMQ.
 Todo
 ----
 
-* Select final animations.
 * Binary clock animation.
 * Add post effect capping of colour values.
 * Spherical co-ordinates unit for rendering to a complete virtual sphere.
@@ -29,6 +28,7 @@ Todo
 Implemented ideas
 -----------------
 
+* Select final animations.
 * Script for launching on start up.
 * Specify multiple animations with commas.
 * Make candy stripes wider.
