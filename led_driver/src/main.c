@@ -45,10 +45,12 @@
 
 static uint8_t running = 1;
 struct timespec tstart={0,0}, tend={0,0};
-int gpio_multiplex_pins[4] = {RPI_BPLUS_GPIO_J8_31, 
-								RPI_BPLUS_GPIO_J8_36, 
-								RPI_BPLUS_GPIO_J8_35, 
-								RPI_BPLUS_GPIO_J8_38};
+int gpio_multiplex_pins[6] = {RPI_BPLUS_GPIO_J8_13,
+							  RPI_BPLUS_GPIO_J8_29,
+							  RPI_BPLUS_GPIO_J8_36,
+							  RPI_BPLUS_GPIO_J8_15,
+							  RPI_BPLUS_GPIO_J8_31,
+							  RPI_BPLUS_GPIO_J8_38};
 
 ws2811_t ledstring_PWM = {
     .freq = TARGET_FREQ,
@@ -113,21 +115,23 @@ static void setup_multiplex_gpio_pins(void)
 	}
 }
 
-static void enable_outputs(int pin_1, int pin_2)
+static void enable_outputs(int pin_on_0, int pin_on_1, int pin_on_2,
+						   int pin_off_0, int pin_off_1, int pin_off_2)
 {
-	for (int i = 0; i < (sizeof(gpio_multiplex_pins) / sizeof(int)); i++) {
-		bcm2835_gpio_clr(gpio_multiplex_pins[i]);
-	}
-	bcm2835_gpio_set(pin_1);
-	bcm2835_gpio_set(pin_2);
+	bcm2835_gpio_clr(pin_off_0);
+	bcm2835_gpio_clr(pin_off_1);
+	bcm2835_gpio_clr(pin_off_2);
+	bcm2835_gpio_set(pin_on_0);
+	bcm2835_gpio_set(pin_on_1);
+	bcm2835_gpio_set(pin_on_2);
 }
 
 int main(int argc, char *argv[])
 {
 	int count = 0;
-    int rc;
     unsigned char led_array[BYTES_PER_FRAME];
     ws2811_return_t ret;
+    size_t size;
 	zmq_msg_t msg;
     setup_handlers();
     
@@ -159,35 +163,35 @@ int main(int argc, char *argv[])
     printf("Running\n");
     setbuf(stdout, NULL);
     while (running) {
-        rc = zmq_msg_init(&msg);
-        assert (rc ==  0 && "EXC: in zmq_msg_init() call" );
-        rc = zmq_msg_recv  (&msg, aSUB, 0);
-        assert (rc != -1 && "EXC: in zmq_msg_recv() call" );
-        size_t size = zmq_msg_size(&msg);
+        zmq_msg_init(&msg);
+        zmq_msg_recv(&msg, aSUB, 0);
+        size = zmq_msg_size(&msg);
         memcpy(led_array, zmq_msg_data( &msg ), BYTES_PER_FRAME);
 
         matrix_render(led_array + FRAME_0, led_array + FRAME_1, led_array + FRAME_2);
-		enable_outputs(gpio_multiplex_pins[0], gpio_multiplex_pins[2]);
-        if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
-            fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
-            break;
-        }
+		enable_outputs(gpio_multiplex_pins[0], gpio_multiplex_pins[1], gpio_multiplex_pins[2],
+					   gpio_multiplex_pins[3], gpio_multiplex_pins[4], gpio_multiplex_pins[5]);
         if ((ret = ws2811_render(&ledstring_PCM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PCM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
-        usleep(1000000 / 800);
+        if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
+            fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
+            break;
+        }
+        //usleep(1000000 / 174);
         matrix_render(led_array + FRAME_3, led_array + FRAME_4, led_array + FRAME_5);
-		enable_outputs(gpio_multiplex_pins[1], gpio_multiplex_pins[3]);
-        if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
-            fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
-            break;
-        }
+		enable_outputs(gpio_multiplex_pins[3], gpio_multiplex_pins[4], gpio_multiplex_pins[5], 
+					   gpio_multiplex_pins[0], gpio_multiplex_pins[1], gpio_multiplex_pins[2]);
         if ((ret = ws2811_render(&ledstring_PCM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PCM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
-        usleep(1000000 / 800);
+        if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
+            fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
+            break;
+        }
+        //usleep(1000000 / 174);
         if (count % 100 == 0) {
 			clock_gettime(CLOCK_MONOTONIC, &tend);
 			printf("%.5f seconds: received [%d],%d\n", 
