@@ -37,7 +37,7 @@ class PhaseSpinners2(Animation):
             self.ring_render(
                 self.fc.colour(200, 200, 200), self.fc.colour(0, 0, 0)),
         ], dtype=np.uint8)
-        self.speed = [3, 5, 6, 9, 10, 15]
+        self.speed = [2, 3, 5, 6, 9, 10]
 
     def render(self, frame):
         return self.animation(frame)
