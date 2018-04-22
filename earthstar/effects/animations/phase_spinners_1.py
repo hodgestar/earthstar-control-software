@@ -24,7 +24,7 @@ class PhaseSpinners1(Animation):
 
     def post_init(self):
         self.ring_len = 75
-        self.brightness = 80
+        self.brightness = 6
         self._rings = np.array([
             self.ring_render(self.fc.colour(self.brightness, self.brightness, self.brightness), self.fc.colour(0, 0, 0)),
             self.ring_render(self.fc.colour(self.brightness, self.brightness, self.brightness), self.fc.colour(0, 0, 0)),
@@ -33,7 +33,7 @@ class PhaseSpinners1(Animation):
             self.ring_render(self.fc.colour(self.brightness, self.brightness, self.brightness), self.fc.colour(0, 0, 0)),
             self.ring_render(self.fc.colour(self.brightness, self.brightness, self.brightness), self.fc.colour(0, 0, 0)),
         ], dtype=np.uint8)
-        self.speed = [2, 3, 5, 6, 9, 10]
+        self.speed = [1, 2, 3, 5, 6, 9]
         for i in range(self.fc.n_rings):
             self._rings[i] = np.roll(self._rings[i], random.randint(0, self.fc.leds_per_ring - 1), axis=0)
 
@@ -48,7 +48,8 @@ class PhaseSpinners1(Animation):
         for i in range(self.fc.n_rings):
             self._rings[i] = np.roll(self._rings[i], self.speed[i], axis=0)
         rings = copy.deepcopy(self._rings)
+        rings = rings ** 1.5
         rings[0] = rings[1] = rings[2] = rings[3] = rings[4] = rings[5] = np.clip((
             rings[0] + rings[1] + rings[2] + rings[3] + rings[4] + rings[5]), 0, 255)
-
+		
         frame[:] = rings
