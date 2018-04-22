@@ -9,7 +9,7 @@ from ...colours import SIX_PRIMARY_COLOURS
 from ..engine import Animation
 
 
-class CandyStripes(Animation):
+class Modigliani(Animation):
 
     ANIMATION = __name__
     ARGS = {

@@ -205,7 +205,7 @@ class Earthstar(object):
         # remove white values from each LED
         colours = np.delete(frame, 3, axis=2)
         # re-order colours to r, g, b
-        colours = colours[:, :, [2, 1, 0]]
+        # colours = colours[:, :, [2, 1, 0]]
         # add opacity of 1.0 to each colour
         colours = np.insert(colours, 3, 1.0, axis=2)
         # flatten before repeat

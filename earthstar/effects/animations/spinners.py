@@ -41,7 +41,7 @@ class Spinners(Animation):
         self.colour_2 = self.fc.colour(0, 0, 0)
 
     def render(self, frame):
-        return self.animation_1(frame)
+        return self.animation_2(frame)
 
     def animation_1(self, frame):
         """ A slowly spinning point that has a white bar that alternately fills
@@ -80,4 +80,4 @@ class Spinners(Animation):
         for i in range(self.fc.n_rings):
             self._rings[i] = np.roll(self._rings[i], self.ring_pos, axis=0)
         frame[:] = self._rings
-        self.ring_pos = (self.ring_pos + 5) % (self.fc.leds_per_ring * 2)
+        self.ring_pos = (self.ring_pos + 3) % (self.fc.leds_per_ring * 2)

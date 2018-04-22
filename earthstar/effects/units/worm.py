@@ -44,10 +44,12 @@ class Worm(Unit):
         c_ring, c_start = self.fc.crossings[(f_ring, f_start)]
         if direction == 1:
             self.segments.insert(0, (c_ring, c_start + 1, c_start))
+            return True
         elif direction == -1:
             self.segments.insert(0, (c_ring, c_start, c_start + 1))
+            return True
         else:
-            pass  # don't start a new segment for places we don't turn
+            return False  # don't start a new segment for places we don't turn
 
     def step(self):
         for _ in range(self.speed):
@@ -55,9 +57,14 @@ class Worm(Unit):
             f_direction = (-1, 1)[f_start >= f_end]
             n_start = f_start + f_direction
             if n_start >= self.fc.c:
+                wrap = False
                 if (f_ring, 0) in self.fc.crossings:
-                    self._do_turn(f_ring, 0)
+                    wrap = not self._do_turn(f_ring, 0)
+                    if len(self.segments) > 1:
+                        self.segments[1] = (f_ring, self.fc.c - 1, f_end)
                 else:
+                    self.segments.insert(0, (f_ring, 1, 0))
+                if wrap:
                     self.segments.insert(0, (f_ring, 1, 0))
                 self.segments[1] = (f_ring, self.fc.c - 1, f_end)
             elif n_start <= -1:

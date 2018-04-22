@@ -26,7 +26,7 @@ from .frame_utils import FrameConstants
 
 @click.command(context_settings={"auto_envvar_prefix": "ESC"})
 @click.option(
-    '--fps', default=10,
+    '--fps', default=17,
     help='Frames per second.')
 @click.option(
     '--etype', default="earthstar",
