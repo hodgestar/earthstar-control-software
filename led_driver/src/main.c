@@ -12,7 +12,6 @@
 #include "dma.h"
 #include "gpio.h"
 #include "pwm.h"
-#include "version.h"
 #include "ws2811.h"
 
 #define RED           0x00200000
@@ -43,33 +42,42 @@
 #define FRAME_4					(4 * BYTES_PER_FRAME_RING)
 #define FRAME_5					(5 * BYTES_PER_FRAME_RING)
 
+#define PWM_0_GPIO_PIN			12
+#define PWM_0_CHANNEL_0_PIN		22
+#define PWM_0_CHANNEL_1_PIN		27
+#define PWM_1_GPIO_PIN			13
+#define PWM_1_CHANNEL_0_PIN		5
+#define PWM_1_CHANNEL_1_PIN		6
+#define PCM_0_GPIO_PIN			21
+#define PCM_0_CHANNEL_0_PIN		16
+#define PCM_0_CHANNEL_1_PIN		20
+#define SPI_0_GPIO_PIN			10
+#define SPI_0_CHANNEL_0_PIN		NULL
+#define SPI_0_CHANNEL_1_PIN		NULL
+
 static uint8_t running = 1;
 struct timespec tstart={0,0}, tend={0,0};
-int gpio_multiplex_pins[4] = {RPI_BPLUS_GPIO_J8_31, 
-								RPI_BPLUS_GPIO_J8_36, 
-								RPI_BPLUS_GPIO_J8_35, 
-								RPI_BPLUS_GPIO_J8_38};
 
 ws2811_t ledstring_PWM = {
     .freq = TARGET_FREQ,
     .dmanum = 10,
-    .channel = {[0] = {.gpionum = 12, .count = LED_COUNT_PER_RING,
-        .invert = 0, .brightness = 255, .strip_type = STRIP_TYPE,},
-				[1] = {.gpionum = 13, .count = LED_COUNT_PER_RING,
+    .channel = {[0] = {.gpionum = PWM_0_GPIO_PIN, .count = LED_COUNT_PER_RING,
+		.invert = 0, .brightness = 255, .strip_type = STRIP_TYPE,},
+				[1] = {.gpionum = PWM_1_GPIO_PIN, .count = LED_COUNT_PER_RING,
         .invert = 0, .brightness = 255, .strip_type = STRIP_TYPE,},
     },};
 ws2811_t ledstring_SPI = {
 	.freq = TARGET_FREQ,
-	.dmanum = 14,
-	.channel = {[0] = {.gpionum = 10, .count = LED_COUNT_PER_RING, 
+	.dmanum = 13,
+	.channel = {[0] = {.gpionum = SPI_0_GPIO_PIN, .count = LED_COUNT_PER_RING, 
 		.invert = 0, .brightness = 255, .strip_type = STRIP_TYPE, },
 				[1] = {.gpionum = 0, .count = 0,
 		.invert = 0, .brightness = 0, .strip_type = STRIP_TYPE, },
 	},};
 ws2811_t ledstring_PCM = {
 	.freq = TARGET_FREQ,
-	.dmanum = 13,
-	.channel = {[0] = {.gpionum = 21, .count = LED_COUNT_PER_RING, 
+	.dmanum = 14,
+	.channel = {[0] = {.gpionum = PCM_0_GPIO_PIN, .count = LED_COUNT_PER_RING, 
 		.invert = 0, .brightness = 255, .strip_type = STRIP_TYPE, },
 				[1] = {.gpionum = 0, .count = 0,
 		.invert = 0, .brightness = 0, .strip_type = STRIP_TYPE, },
@@ -81,11 +89,12 @@ void matrix_render(unsigned char * frame_0, unsigned char * frame_1,
 	memcpy(ledstring_PWM.channel[0].leds, frame_0, BYTES_PER_FRAME_RING);
 	memcpy(ledstring_PWM.channel[1].leds, frame_1, BYTES_PER_FRAME_RING);
 	memcpy(ledstring_PCM.channel[0].leds, frame_2, BYTES_PER_FRAME_RING);
+	// memcpy(ledstring_PCM.channel[0].leds, frame_2, BYTES_PER_FRAME_RING);
 	// Not using these at the moment
-	// memcpy(ledstring_SPI.channel[0].leds, data_0, LED_COUNT * 4);
-	// memcpy(ledstring_PCM.cha//el[1].leds, data_1, LED_COUNT);
+	// memcpy(ledstring_PCM.channel[0].leds, data_0, BYTES_PER_FRAME_RING);
+	// memcpy(ledstring_PCM.channel[1].leds, data_1, BYTES_PER_FRAME_RING);
 	// Channel doesn't exist 
-	// memcpy(ledstring_SPI.channel[1].leds, data_1, LED_COUNT); 
+	// memcpy(ledstring_PCM.channel[1].leds, data_1, BYTES_PER_FRAME_RING); 
 }
 
 static void ctrl_c_handler(int signum)
@@ -105,29 +114,56 @@ static void setup_handlers(void)
     sigaction(SIGTERM, &sa, NULL);
 }
 
-static void setup_multiplex_gpio_pins(void)
+static void setup_gpio_channel_pins(void)
 {
-	for (int i = 0; i < (sizeof(gpio_multiplex_pins) / sizeof(int)); i++) {
-		bcm2835_gpio_fsel (gpio_multiplex_pins[i], BCM2835_GPIO_FSEL_OUTP);
-		bcm2835_gpio_clr(gpio_multiplex_pins[i]);
-	}
+	bcm2835_gpio_fsel(PWM_0_CHANNEL_0_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PWM_0_CHANNEL_0_PIN);
+	bcm2835_gpio_fsel(PWM_0_CHANNEL_1_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PWM_0_CHANNEL_1_PIN);
+	bcm2835_gpio_fsel(PWM_1_CHANNEL_0_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PWM_1_CHANNEL_0_PIN);
+	bcm2835_gpio_fsel(PWM_1_CHANNEL_1_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PWM_1_CHANNEL_1_PIN);
+	bcm2835_gpio_fsel(PCM_0_CHANNEL_0_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PCM_0_CHANNEL_0_PIN);
+	bcm2835_gpio_fsel(PCM_0_CHANNEL_1_PIN, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(PCM_0_CHANNEL_1_PIN);
 }
 
-static void enable_outputs(int pin_1, int pin_2)
+static void enable_pwm_channel_0(void)
 {
-	for (int i = 0; i < (sizeof(gpio_multiplex_pins) / sizeof(int)); i++) {
-		bcm2835_gpio_clr(gpio_multiplex_pins[i]);
-	}
-	bcm2835_gpio_set(pin_1);
-	bcm2835_gpio_set(pin_2);
+	bcm2835_gpio_clr(PWM_0_CHANNEL_1_PIN);
+	bcm2835_gpio_clr(PWM_1_CHANNEL_1_PIN);
+	bcm2835_gpio_set(PWM_0_CHANNEL_0_PIN);
+	bcm2835_gpio_set(PWM_1_CHANNEL_0_PIN);
+}
+
+static void enable_pwm_channel_1(void)
+{
+	bcm2835_gpio_clr(PWM_0_CHANNEL_0_PIN);
+	bcm2835_gpio_clr(PWM_1_CHANNEL_0_PIN);
+	bcm2835_gpio_set(PWM_0_CHANNEL_1_PIN);
+	bcm2835_gpio_set(PWM_1_CHANNEL_1_PIN);
+}
+
+static void enable_pcm_channel_0(void)
+{
+	bcm2835_gpio_clr(PCM_0_CHANNEL_1_PIN);
+	bcm2835_gpio_set(PCM_0_CHANNEL_0_PIN);
+}
+
+static void enable_pcm_channel_1(void)
+{
+	bcm2835_gpio_clr(PCM_0_CHANNEL_0_PIN);
+	bcm2835_gpio_set(PCM_0_CHANNEL_1_PIN);
 }
 
 int main(int argc, char *argv[])
 {
 	int count = 0;
-    int rc;
     unsigned char led_array[BYTES_PER_FRAME];
     ws2811_return_t ret;
+    size_t size;
 	zmq_msg_t msg;
     setup_handlers();
     
@@ -147,7 +183,7 @@ int main(int argc, char *argv[])
 		printf("ERROR: unable to init bcm2835 GPIO\n");
 		return 1;
 	}
-	setup_multiplex_gpio_pins();
+	setup_gpio_channel_pins();
 
     void *aContext = zmq_ctx_new();        
     void *aSUB = zmq_socket(aContext, ZMQ_SUB );
@@ -159,35 +195,35 @@ int main(int argc, char *argv[])
     printf("Running\n");
     setbuf(stdout, NULL);
     while (running) {
-        rc = zmq_msg_init(&msg);
-        assert (rc ==  0 && "EXC: in zmq_msg_init() call" );
-        rc = zmq_msg_recv  (&msg, aSUB, 0);
-        assert (rc != -1 && "EXC: in zmq_msg_recv() call" );
-        size_t size = zmq_msg_size(&msg);
+        zmq_msg_init(&msg);
+        zmq_msg_recv(&msg, aSUB, 0);
+        size = zmq_msg_size(&msg);
         memcpy(led_array, zmq_msg_data( &msg ), BYTES_PER_FRAME);
 
         matrix_render(led_array + FRAME_0, led_array + FRAME_1, led_array + FRAME_2);
-		enable_outputs(gpio_multiplex_pins[0], gpio_multiplex_pins[2]);
+        enable_pwm_channel_0();
         if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
+        enable_pcm_channel_0();
         if ((ret = ws2811_render(&ledstring_PCM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PCM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
-        usleep(1000000 / 800);
+        //usleep(1000000 / 60);
         matrix_render(led_array + FRAME_3, led_array + FRAME_4, led_array + FRAME_5);
-		enable_outputs(gpio_multiplex_pins[1], gpio_multiplex_pins[3]);
+        enable_pwm_channel_1();
         if ((ret = ws2811_render(&ledstring_PWM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PWM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
+        enable_pcm_channel_1();
         if ((ret = ws2811_render(&ledstring_PCM)) != WS2811_SUCCESS) {
             fprintf(stderr, "ws2811_render ledstring_PCM failed: %s\n", ws2811_get_return_t_str(ret));
             break;
         }
-        usleep(1000000 / 800);
+        //usleep(1000000 / 60);
         if (count % 100 == 0) {
 			clock_gettime(CLOCK_MONOTONIC, &tend);
 			printf("%.5f seconds: received [%d],%d\n", 
