@@ -82,8 +82,8 @@ class Goldfish(Animation):
 
     def post_init(self):
         self.worms = []
-        self.create_fishes(3, 30, (0, 50, 255))
-        self.create_fishes(2, 3, (255, 255, 255))
+        self.create_fishes(2, 30, (255, 15, 0))
+        self.create_fishes(1, 3, (255, 255, 255))
 
     def render(self, frame):
         for worm in self.worms:

@@ -24,7 +24,7 @@ class CraploadsOfWorms(Animation):
             ring = random.randrange(0, self.fc.n_rings)
             start = random.choice([
                 0, self.fc.c4, self.fc.c2, self.fc.c2 + self.fc.c4])
-            speed = random.randint(2, 5)
+            speed = random.randint(1, 3)
             length = 20
             turns = [random.randint(0, 2) - 1, random.randint(0, 2) - 1, random.randint(0, 2) - 1,
                      random.randint(0, 2) - 1, random.randint(0, 2) - 1, random.randint(0, 2) - 1,
