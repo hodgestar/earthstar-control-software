@@ -19,7 +19,9 @@ class Modigliani(Animation):
         c1 = self.fc.colour(*c1)
         c2 = self.fc.colour(*c2)
         cs = self.fc.colour(0, 0, 0)
-        pair = ([c1] * self.stripe_width) + ([cs] * self.space_width) + ([c2] * self.stripe_width) + ([cs] * self.space_width)
+        pair = (
+            ([c1] * self.stripe_width) + ([cs] * self.space_width) +
+            ([c2] * self.stripe_width) + ([cs] * self.space_width))
         repeats = int(np.ceil(
             float(self.fc.leds_per_ring) / (self.stripe_width * 2)))
         return (pair * repeats)[:self.fc.leds_per_ring]

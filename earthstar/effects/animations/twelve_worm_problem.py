@@ -21,8 +21,8 @@ class TwelveWormProblem(Animation):
             for r, c in enumerate(SIX_PRIMARY_COLOURS)
         ]
         self.worms += [
-            Worm(self.fc, ring=r, start=(self.fc.leds_per_ring / 2), speed=5, length=100,
-                 colour=self.fc.colour(*c))
+            Worm(self.fc, ring=r, start=(self.fc.leds_per_ring / 2), speed=5,
+                 length=100, colour=self.fc.colour(*c))
             for r, c in enumerate(SIX_PRIMARY_COLOURS)
         ]
 

@@ -26,9 +26,13 @@ class CraploadsOfWorms(Animation):
                 0, self.fc.c4, self.fc.c2, self.fc.c2 + self.fc.c4])
             speed = random.randint(1, 3)
             length = 20
-            turns = [random.randint(0, 2) - 1, random.randint(0, 2) - 1, random.randint(0, 2) - 1,
-                     random.randint(0, 2) - 1, random.randint(0, 2) - 1, random.randint(0, 2) - 1,
-                     random.randint(0, 2) - 1, random.randint(0, 2) - 1, random.randint(0, 2) - 1]
+            turns = [
+                random.randint(0, 2) - 1, random.randint(0, 2) - 1,
+                random.randint(0, 2) - 1, random.randint(0, 2) - 1,
+                random.randint(0, 2) - 1, random.randint(0, 2) - 1,
+                random.randint(0, 2) - 1, random.randint(0, 2) - 1,
+                random.randint(0, 2) - 1,
+            ]
             self.worms.append(Worm(
                 self.fc, ring=ring, start=start, speed=speed, length=length,
                 colour=self.fc.colour(*c), turns=turns))

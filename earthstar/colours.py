@@ -60,6 +60,7 @@ MANY__COLOURS = [
     (0, 255, 255),
 ]
 
+
 def random_good_hues():
     """ Return a random set of good hues. """
     return random.choice(GOOD_HUES)

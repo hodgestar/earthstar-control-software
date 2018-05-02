@@ -17,68 +17,108 @@ class Goldfish(Animation):
         ring = 0
         start = 5
         turns = [-1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 1) / 10) + 10
         turns = [-1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 2) / 10) + 10
         turns = [-1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 3) / 10) + 10
         turns = [1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 4) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 5) / 10) + 10
         turns = [-1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 6) / 10) + 10
         turns = [-1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 7) / 10) + 10
         turns = [-1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 8) / 10) + 10
         turns = [1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 9) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         ring = 1
         start = ((self.fc.leds_per_ring * 8) / 10) + 10
         turns = [-1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 7) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 6) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         ring = 4
         start = ((self.fc.leds_per_ring * 4) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 5) / 10) + 10
         turns = [-1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         ring = 2
         start = ((self.fc.leds_per_ring * 7) / 10) + 10
         turns = [-1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 8) / 10) + 10
         turns = [1, -1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 9) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         ring = 3
         start = ((self.fc.leds_per_ring * 1) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
         start = ((self.fc.leds_per_ring * 2) / 10) + 10
         turns = [1, 1, 1]
-        self.worms.append(Worm(self.fc, ring=ring, start=start, speed=speed, length=length, colour=self.fc.colour(*c), turns=turns))
+        self.worms.append(Worm(
+            self.fc, ring=ring, start=start, speed=speed, length=length,
+            colour=self.fc.colour(*c), turns=turns))
 
     def post_init(self):
         self.worms = []
