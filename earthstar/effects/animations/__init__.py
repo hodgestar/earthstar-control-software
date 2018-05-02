@@ -19,29 +19,40 @@ from .random_worms import RandomWorms
 from .ring_primary_colour import RingPrimaryColour
 from .six_worm_problem import SixWormProblem
 from .spinners import Spinners
-# from .sparkles import Sparkles  # doesn't look great
+from .sparkles import Sparkles  # doesn't look great
 from .three_worm_problem import ThreeWormProblem
 from .twelve_worm_problem import TwelveWormProblem
 from .worms_craploads import CraploadsOfWorms
 from .worms_goldfish import Goldfish
+from .candy_primary import CandyStripes as CandyPrimary
+from .comets import Comets
+from .full_pulse_fast import FullPulse as FullPulseFast
+from .spin_up import SpinUp
+from .spin_up_rings import SpinUpRings
 
 DEFAULT_ANIMATIONS = [
     CandyStripes,
+    CandyPrimary,
+    Comets,
     FullPulse,
-    GradientPattern1,
-    GradientPattern2,
+    FullPulseFast,
+    # GradientPattern1,
+    # GradientPattern2,
     GradientPattern3,
     GradientPattern4,
-    LotsOfDots,
+    # LotsOfDots,
     PhaseSpinners1,
     PhaseSpinners2,
     PhaseSpinners3,
     PhaseSpinners4,
-    RandomWorms,
+    # RandomWorms,
     RingPrimaryColour,
     SixWormProblem,
     Spinners,
-    ThreeWormProblem,
+    SpinUp,
+    SpinUpRings,
+    # Sparkles,
+    # ThreeWormProblem,
     TwelveWormProblem,
     CraploadsOfWorms,
     Goldfish,
