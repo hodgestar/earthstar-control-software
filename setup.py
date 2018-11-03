@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="earthstar",
     version="0.0.1",
-    url='http://github.com/hodgestar/yikes-moles',
+    url='http://github.com/hodgestar/earthstar-control-software',
     license='MIT',
     description="Earthstar control software and simulator.",
     long_description=open('README.rst', 'r').read(),
