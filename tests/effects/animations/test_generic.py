@@ -21,6 +21,7 @@ def find_animations():
     pkg_modules = [
         os.path.splitext(os.path.basename(x))[0]
         for x in glob.glob(pkg_folder + "/*.py")
+        if not x.endswith('/__init__.py')
     ]
     return [
         animations.import_animation(x) for x in pkg_modules
